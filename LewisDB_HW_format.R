@@ -1,8 +1,8 @@
 #############################################################################
 #Name: Daniel Lewis
-#Description: Homework Assignment 4
-#Date: 2/1/19 (JST)
-#input: CSV file from the U.S. Census 
+#Description: 
+#Date: 02/05/2019
+#input:
 #output:
 #update history:
 #############################################################################
