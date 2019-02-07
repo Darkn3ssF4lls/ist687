@@ -13,7 +13,8 @@
 ################################IMPORTS SECTION##############################
 #############################################################################
 #
-#No external imports in this project.
+install.packages("moments")
+library("moments")
 #
 #############################################################################
 ############################LOCAL FUNCTIONS##################################
@@ -31,7 +32,11 @@
     #e. Quantiles (at 0.05 and 0.95)
     #f. Skewness
 #Note for skewness, you can use the function in the 'moments' library.
-
+#
+printVecInfo <- function(vector){
+  cat("Mean:",mean(vector),  "Median:",median(vector),  "Min:",min(vector), "Max:",max(vector),"sd:", sd(vector),  "quantile (0.05 - 0.95:)", quantile(vector, probs = c(.05, .95)),  "skewness:", skewness(vector), sep="\n")
+}
+#  
   #3. Test the function with a vector that has (1,2,3,4,5,6,7,8,9,10,50). You should see 
   #something such as:
     #[1] "mean: 9.54545454545454"
@@ -40,6 +45,9 @@
     #[1] "sd: 13.7212509368762"
     #[1] "quantile (0.05 - 0.95): 1.5 -- 30"
     #[1] "skewness: 2.62039633563579"
+#
+given.sample <- c(1,2,3,4,5,6,7,8,9,10,50)
+printVecInfo(given.sample)
 #
 #Step 2: Creating Samples in a Jar
   #4. Create a variable 'jar' that has 50 red and 50 blue marbles
@@ -60,6 +68,18 @@
   #numbers, this time each number represents the mean of how many reds there were 
   #in the 100 samples. Use your printVecInfo to see information of the samples. Also 
   #generate a histogram of the samples.
+#
+fill.jar <- function(){
+  x <- 0
+  while (x <= 50){
+    print (c("pass", x))
+    vector<-c(vector, "red", "blue")
+    x<-x+1
+  }
+  return(vector)
+}
+jar <- fill.jar()
+sample (jar, 10)
 #
 #Step 3: Explore the airquality dataset
   #10. Store the 'airquality' dataset into a temporary variable
