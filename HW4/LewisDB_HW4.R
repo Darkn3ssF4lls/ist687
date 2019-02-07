@@ -3,7 +3,7 @@
 #Description: Homework Assignment 4
 #Date: 2/1/19 (JST)
 #input: CSV file from the U.S. Census 
-#output:
+#output: histograms files
 #update history:
 #############################################################################
 ###############################HW4 Samples	HW###############################
@@ -59,21 +59,26 @@ printVecInfo(given.sample)
   #4. Create a variable 'jar' that has 50 red and 50 blue marbles (hint: the jar can have strings as objects, with some of the strings being 'red' and some of the strings being 'blue')
 red <- rep("red",50)
 blue <- rep("blue",50)
+jar <- c(red,blue)
   #5. Confirm there are 50 reds by summing the samples that are red
-count.red <- length(grep("red", jar, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))
+print(count.red <- length(grep("red", jar, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE)))
   #6. Sample 10 'marbles' (really strings) from the jar. How many are red? What was the percentage of red marbles?
 sample10 <- sample(jar, size=10, replace=TRUE)
-count.red1 <- length(grep("red", sample1, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))
-percent <- c((count.red1/length(sample1))*100,"%")
-cat("Percentage of Red Marbales:")
+count.red1 <- length(grep("red", sample10, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))
+percent <- c((count.red1/length(sample10))*100,"%")
+cat("Percentage of Red Marbles:", percent)
   #7. Do the sampling 20 times, using the 'replicate' command. This should generate a list of 20 numbers. Each number is the mean of how many reds there were in 10 samples. Use your printVecInfo to see information of the samples. Also generate a histogram of the samples.
-sample20 <- replicate(20, mean(),ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))
+sample20 <- replicate(20,mean(length(grep("red",sample(jar, size=10, replace=TRUE), ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))))
+printVecInfo(sample20)
+hist(sample20,main="Hist of 20 Means", xlab="Mean of 10 Samples", col="gold")
   #8. Repeat #7, but this time, sample the jar 100 times. You should get 20 numbers, this time each number represents the mean of how many reds there were in the 100samples. Use your printVecInfo to see information of the samples. Also generate a histogram of the samples.
-  
+sample100 <- replicate(20,mean(length(grep("red",sample(jar, size=100, replace=TRUE), ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))))
+printVecInfo(sample100)
+hist(sample100,main="Hist of 20 Means", xlab="Mean of 100 Samples", col="gray") 
   #9. Repeat #8, but this time, replicate the sampling 100 times. You should get 100 numbers, this time each number represents the mean of how many reds there were in the 100 samples. Use your printVecInfo to see information of the samples. Also generate a histogram of the samples.
-#
-jar <- c(red,blue)
-sum(count.red)
+rep100 <- replicate(100,mean(length(grep("red",sample(jar, size=100, replace=TRUE), ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE))))
+printVecInfo(rep100)
+hist(sample100,main="Hist of 100 Means", xlab="Mean of 100 Samples", col="gray") 
 #
 #Step 3: Explore the airquality dataset
   #10. Store the 'airquality' dataset into a temporary variable
