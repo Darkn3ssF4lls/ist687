@@ -19,7 +19,7 @@ library("sqldf")
 library("stringr")
 library("RCurl")
 library("RJSONIO")
-perl <- "C:/strawberry/perl/bin/perl.exe"
+perl <- "C:/strawberry/perl/bin/perl.exe" #need to install on windows for xls to work
 installXLSXsupport()
 #
 #############################################################################
@@ -30,7 +30,7 @@ installXLSXsupport()
 #   Read in the following JSON dataset http://data.maryland.gov/api/views/pdvh-tf2u/rows.json?accessType=DOWNLOAD
 #
 url.to.read <- getURL("http://data.maryland.gov/api/views/pdvh-tf2u/rows.json?accessType=DOWNLOAD")
-from.json <- fromJSON(url.to.read)
+from.json <- fromJSON(url.to.read, nullValue = "NA")
 #
 #############################################################################
 ############################LOCAL FUNCTIONS##################################
@@ -48,6 +48,7 @@ Numberize <- function(inputVector)
 #
 #   After you load the data, remove the first 8 columns, and then, to make it easier to work with, name the rest of the columns as follows:
 #
+data.list <- from.json[[2]]
 #Note, not surprisingly, it is in JSON format.  You should be able to see that the first result is the metadata (information about the data) and the second is the actual data.
 #namesOfColumns <- c("CASE_NUMBER","BARRACK","ACC_DATE","ACC_TIME","ACC_TIME_CODE","DAY_OF_WEEK","ROAD","INTERSECT_ROAD","DIST_FROM_INTERSECT","DIST_DIRECTION","CITY_NAME","COUNTY_CODE","COUNTY_NAME","VEHICLE_COUNT","PROP_DEST","INJURY","COLLISION_WITH_1","COLLISION_WITH_2")
 #
