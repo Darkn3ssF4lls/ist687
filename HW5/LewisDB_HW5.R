@@ -9,19 +9,40 @@
 ###############HW5 JSON & tapply Homework: Accident Analysis#################
 #############################################################################
 #
+install.packages("gdata")
+install.packages("sqldf")
+install.packages("stringr")
+install.packages("RCurl")
+install.packages("RJSONIO")
+library("gdata")
+library("sqldf")
+library("stringr")
+library("RCurl")
+library("RJSONIO")
+perl <- "C:/strawberry/perl/bin/perl.exe"
+installXLSXsupport()
 #
 #############################################################################
 #############################IMPORTS SECTION#################################
 #############################################################################
 #
+#Step 1: Load the data
+#   Read in the following JSON dataset http://data.maryland.gov/api/views/pdvh-tf2u/rows.json?accessType=DOWNLOAD
+#
+url.to.read <- getURL("http://data.maryland.gov/api/views/pdvh-tf2u/rows.json?accessType=DOWNLOAD")
+from.json <- fromJSON(url.to.read)
 #
 #############################################################################
 ############################LOCAL FUNCTIONS##################################
 #############################################################################
 #
-#Step 1: Load the data
-#
-#   Read in the following JSON dataset http://data.maryland.gov/api/views/pdvh-tf2u/rows.json?accessType=DOWNLOAD
+Numberize <- function(inputVector)
+{
+  inputVector <- gsub(",", "", inputVector)
+  inputVector <- gsub(" ", "", inputVector)
+  return(inputVector)
+}
+#############################################################################
 #
 #Step 2: Clean the data
 #
