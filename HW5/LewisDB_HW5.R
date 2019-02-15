@@ -62,6 +62,12 @@ colnames(trimmed.list)<-c("CASE_NUMBER","BARRACK","ACC_DATE","ACC_TIME","ACC_TIM
 #Answer the following questions:
 #1) How many accidents happen on SUNDAY  
 #
+sqldf("SELECT count(DAY_OF_WEEK) 
+        as 'sundays.accidents'
+        FROM trimmed.list 
+        WHERE TRIM((DAY_OF_WEEK))='SUNDAY'"
+      )
+
 #2) How many accidents had injuries (might need to remove NAs from the data)
 #
 #3) List the injuries by day
