@@ -1,7 +1,7 @@
 #############################################################################
 #Name: Daniel Lewis
 #Description: Homework Assignment 5
-#Date: 2/8/19 (JST)
+#Date: 2/15/19 (JST)
 #input: 
 #output: 
 #update history:
@@ -67,15 +67,28 @@ sqldf("SELECT count(DAY_OF_WEEK)
         FROM trimmed.list 
         WHERE TRIM((DAY_OF_WEEK))='SUNDAY'"
       )
-
+#
 #2) How many accidents had injuries (might need to remove NAs from the data)
+#
+sqldf("SELECT count(INJURY)
+      as 'injury.count'
+      FROM trimmed.list
+      WHERE TRIM((INJURY))='YES'"
+      )
 #
 #3) List the injuries by day
 #
+sqldf("SELECT DAY_OF_WEEK as 'Day of Weeek',
+      count(INJURY) as 'Total Number'
+      FROM trimmed.list
+      WHERE TRIM((INJURY))='YES'
+      GROUP BY DAY_OF_WEEK"
+)
 #Step 4: Understand the data using tapply
 #
 #Answer the following questions (same as before) - compare results:
 #1) How many accidents happen on Sunday
+#
 #
 #2) How many accidents had injuries (might need to remove NAs from the data)
 #
