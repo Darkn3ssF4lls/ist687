@@ -48,9 +48,14 @@ Numberize <- function(inputVector)
 #
 #   After you load the data, remove the first 8 columns, and then, to make it easier to work with, name the rest of the columns as follows:
 #
-data.list <- from.json[[2]]
+only.data<-from.json[[2]]
+row.count <- length(only.data)
+converted.list <- data.frame(matrix(unlist(only.data), nrow=row.count, byrow=T), stringsAsFactors = FALSE)
+trimmed.list<-converted.list[,-1:-8]
 #Note, not surprisingly, it is in JSON format.  You should be able to see that the first result is the metadata (information about the data) and the second is the actual data.
 #namesOfColumns <- c("CASE_NUMBER","BARRACK","ACC_DATE","ACC_TIME","ACC_TIME_CODE","DAY_OF_WEEK","ROAD","INTERSECT_ROAD","DIST_FROM_INTERSECT","DIST_DIRECTION","CITY_NAME","COUNTY_CODE","COUNTY_NAME","VEHICLE_COUNT","PROP_DEST","INJURY","COLLISION_WITH_1","COLLISION_WITH_2")
+#
+colnames(trimmed.list)<-c("CASE_NUMBER","BARRACK","ACC_DATE","ACC_TIME","ACC_TIME_CODE","DAY_OF_WEEK","ROAD","INTERSECT_ROAD","DIST_FROM_INTERSECT","DIST_DIRECTION","CITY_NAME","COUNTY_CODE","COUNTY_NAME","VEHICLE_COUNT","PROP_DEST","INJURY","COLLISION_WITH_1","COLLISION_WITH_2")
 #
 #Step 3: Understand the data using SQL (via SQLDF)
 #
