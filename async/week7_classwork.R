@@ -159,3 +159,6 @@ map.popColor<-map.popColor+ geom_map(map=us, aes(fill=april10base))
 map.popcolor<-map.popColor+expand_limits(x=us$long, y=us$lat)
 map.popColor<-map.popcolor+coord_map()+ggtitle("State Population")
 map.popcolor
+
+urlFile<-"http://www.opendata500.com/us/download/us_companies.csv"
+od.companies<-read.csv(url(urlFile))
