@@ -24,13 +24,13 @@ readCensus<-function(){
   tempFrame<-data.frame(read.csv(urlToRead))
   tempFrame<-tempFrame[-1:-8,1:5]
   tempFrame<-tempFrame[-52:-58,]
-  colnames(tempFrame)<-c("stateName", "april10census","april10base", "july10pop", "july11pop")
+  colnames(tempFrame)<-c("statename", "april10census","april10base", "july10pop", "july11pop")
   row.names(tempFrame)<- NULL
   tempFrame$statename<-gsub("\\.","",tempFrame$statename)
-  tempFrame$base2010<-Numberize(tempFrame$base2010)
-  tempFrame$base2011<-Numberize(tempFrame$base2011)
-  tempFrame$july2010<-Numberize(tempFrame$july2010)
-  tempFrame$july2011<-Numberize(tempFrame$july2011)
+  tempFrame$april10census<-Numberize(tempFrame$april10census)
+  tempFrame$april10base<-Numberize(tempFrame$april10base)
+  tempFrame$july10pop<-Numberize(tempFrame$july10pop)
+  tempFrame$july11pop<-Numberize(tempFrame$july11pop)
   return(tempFrame)
 }
 #
@@ -47,6 +47,13 @@ geocode<-function(address){
   try(lng<-geoStruct$results[[1]]$geometry$location$lng)
   return(c(lat,lng))
 }
+#Temporary Code to test geo url as shown
+MakeGeoURL<-function(address){
+  root<-"http://maps.google.com/maps/api/geocode/"
+  url<-paste(root,"json?address=",address,"&sensor=false",sep="")
+  return(URLencode(url))
+}
+#Packadges required for the code to function
 EnsurePackage("ggplot2")
 EnsurePackage("mapproj")
 EnsurePackage("RJSONIO")
@@ -101,4 +108,11 @@ map.popColor<-map.popColor + expand_limits(x=us$long, y=us$lat)
 map.popColor<-map.popColor+coord_map()+ggtitle("state population")
 map.popColor
 
+#Codes to pull a link for the white house lat lng
+MakeGeoURL("1600 Pennsylvania Avenue, Washington, DC")
+#
+#code to pull a latlng for the university. 
 latlon<-geocode("syracuse university, syracuse, ny")
+#
+g<-map.popColor+geom_point(aes(x=latlon$lon, y=latlon$lat), color="darkred", size=3)
+g.2<-g+ xlim(-85,70) + ylim(35,45) + coord_map()
