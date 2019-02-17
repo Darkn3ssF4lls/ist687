@@ -62,6 +62,8 @@ EnsurePackage("RCurl")
 #End Local Functions and Imports#
 #-------------------------------#
 
+##7.4 STart
+#
 #creates a dataframe from default dataset state, saved as strings
 dummyDF <- data.frame(state.name, stringsAsFactors=FALSE)
 #turns these values into all lowercase
@@ -116,3 +118,44 @@ latlon<-geocode("syracuse university, syracuse, ny")
 #
 g<-map.popColor+geom_point(aes(x=latlon$lon, y=latlon$lat), color="darkred", size=3)
 g.2<-g+ xlim(-85,70) + ylim(35,45) + coord_map()
+
+##7.5 Start
+#
+#Create four vectors filled with equal data
+cities<-c("Manhattan, NY", "Boston, MA", "Philadelphia, PA", "Tampa, FL", "Chicago, IL", "Boise, ID", "San Francisco, CA", "Seattle, WA", "Huston, TX")
+bus<-c(10,7,6,5,7,3,10,7,5)
+weather<-c(5,3,6,7,3,6,10,7,2)
+living<-c(7,6,6,7,5,4,6,8,2)
+
+#Creat a dataframe and add lat lon data
+city.df<-data.frame(cities,bus,weather,living)
+city.df$geoCode<-geocode(cities)
+
+#add this information to the map.simple map from 7.4
+map.simple + geom_point(data=city.df, aes(x=geoCode$lon, y=geoCode$lat))
+
+#color these by the weather
+map.simple + geom_point(data=city.df, aes(x=geoCode$lon, y=geoCode$lat, size=bus, color=weather))
+
+#7.6 Start
+#
+EnsurePackage("ggplot2")
+EnsurePackage("ggmap")
+
+us <-map_data("state")
+sevensix<-data.frame(state.name, stringsAsFactors=FALSE)
+sevensix$state<-tolower(sevensix$state.name)
+map.simple<-ggplot(sevensix, aes(map_id=state))
+map.simple<- map.simple+geom_map(map=us, fill="white", color="black")
+map.simple<-map.simple+ expand_limits(x=us$long, y=us$lat)
+map.simple<- map.simple+coord_map() + ggtitle("basic map of USA")
+
+us <-map_data("state")
+dfStates<-readCensus()
+dfStates$statename<-tolower(dfStates$statename)
+
+map.popColor<-ggplot(dfStates,aes(map_id=state)) #returns map with colors if statename
+map.popColor<-map.popColor+ geom_map(map=us, aes(fill=april10base))
+map.popcolor<-map.popColor+expand_limits(x=us$long, y=us$lat)
+map.popColor<-map.popcolor+coord_map()+ggtitle("State Population")
+map.popcolor
