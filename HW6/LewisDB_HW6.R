@@ -26,11 +26,11 @@ Numberize <- function(inputVector)
   inputVector <- gsub(" ", "", inputVector)
   return(inputVector)
 }
-na.numeric<-function(vector){
-  for(i in vector){
-    vector[i]<-mean(vector)
+na.numeric<-function(input){
+  for(i in 1:ncol(input)){
+    data[is.na(input[,i]), i] <- mean(data[,i], na.rm=TRUE)  
   }
-  return(vector)
+  return(input)
 }
 #
 #############################################################################
