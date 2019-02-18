@@ -27,16 +27,10 @@ Numberize <- function(inputVector)
   return(inputVector)
 }
 na.numeric<-function(vector){
-  vector.length<-length(vector)
-  count<-0
-  while (count != vector.length){
-    if (vector[count] = NA){
-      vector[count]<-mean(vector)
-      count<-count+1}
-    else{
-      vector[count]<-vector[count]
-      count<-count+1}
-    }
+  for(i in vector){
+    vector[i]<-mean(vector)
+  }
+  return(vector)
 }
 #
 #############################################################################
@@ -62,7 +56,8 @@ local.airquality<-airquality
 #After you load the data, there will be some NAs in the data. You need to figure out what to do
 #about those nasty NAs.
 #
-local.airquality
+local.airquality$Ozone
+print(na.numeric(local.airquality$Ozone))
 #
 #Step 3: Understand the data distribution
 #Create the following visualizationsusing ggplot:
