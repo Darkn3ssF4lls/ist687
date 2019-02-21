@@ -32,15 +32,17 @@ na.numeric<-function(input){
   }
   return(input)
 }
+
 #
 #############################################################################
 #############################IMPORTS SECTION#################################
 #############################################################################
 #
 EnsurePackage("ggplot2")
-EnsuredPackage("ggmap")
-EnsuredPackage("RJSONI")
-EnsuredPackage("Rcurl")
+EnsurePackage("ggmap")
+EnsurePackage("RJSONIO")
+EnsurePackage("RCurl")
+
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -50,22 +52,29 @@ EnsuredPackage("Rcurl")
 #Step 1: Load the data 
 #We will use the air quality data set, which you should already have as part of your R installation.
 #
-local.airquality<-airquality
+myAirquality<-airquality
+
 #
 #Step 2: Clean the data
 #After you load the data, there will be some NAs in the data. You need to figure out what to do
 #about those nasty NAs.
 #
-local.airquality$Ozone
-print(na.numeric(local.airquality$Ozone))
+colnames(myAirquality)[colSums(is.na(myAirquality))>0]
+myAirquality$Ozone[is.na(myAirquality$Ozone)] <- mean(myAirquality$Ozone, na.rm=TRUE)
+myAirquality$Solar.R[is.na(myAirquality$Solar.R)] <- mean(myAirquality$Solar.R, na.rm=TRUE)
+myAirquality$Year <- 1973
 #
 #Step 3: Understand the data distribution
 #Create the following visualizationsusing ggplot:
 #.Histograms for each of the variables
 #
-
+hist()
+hist()
+hist()
 #
 #.Boxplot for Ozone
+x=factor(0)
+
 #
 
 #
@@ -78,7 +87,12 @@ print(na.numeric(local.airquality$Ozone))
 #for ozone, temp, wind and solar.R(one line chart for each, and then one chart with 4 lines, 
 #each having a different color). 
 #
-
+dates<-c(paste(myAirquality$Month,"/",myAirquality$Day,"/", myAirquality$Year))
+dates<-Numberize(dates)
+betterDates<- as.Date(dates, format = "%B/%d/%y")
+myAirquality$Day
+myAirquality$Month
+dates
 #
 #Create these visualizations using ggplot.Note that for the chart with 4 lines, you need to think
 #about how to effectively use the y-axis.
