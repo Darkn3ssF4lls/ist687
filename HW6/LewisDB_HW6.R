@@ -47,7 +47,6 @@ EnsurePackage("sqldf")
 #We will use the air quality data set, which you should already have as part of your R installation.
 #
 myAirquality<-airquality
-
 #
 #Step 2: Clean the data
 #After you load the data, there will be some NAs in the data. You need to figure out what to do
