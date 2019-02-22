@@ -61,10 +61,10 @@ myAirquality$Solar.R[is.na(myAirquality$Solar.R)] <- mean(myAirquality$Solar.R, 
 #Create the following visualizationsusing ggplot:
 #.Histograms for each of the variables
 #
-ozone_hist<- ggplot(myAirquality, aes(x=Ozone)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Ozone Levels in 1973")
-solar_hist<- ggplot(myAirquality, aes(x=Solar.R)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Solar Levels in 1973")
-wind_hist<- ggplot(myAirquality, aes(x=Wind)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Wind Levels in 1973")
-temp_hist<- ggplot(myAirquality, aes(x=Temp)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Temp Levels in 1973")
+ozone_hist<- ggplot(myAirquality, aes(x=Ozone)) + geom_histogram(bins=5, color="black", fill="blue")+ggtitle("Ozone Levels in 1973")
+solar_hist<- ggplot(myAirquality, aes(x=Solar.R)) + geom_histogram(bins=5, color="black", fill="orange")+ggtitle("Solar Levels in 1973")
+wind_hist<- ggplot(myAirquality, aes(x=Wind)) + geom_histogram(bins=5, color="black", fill="green")+ggtitle("Wind Levels in 1973")
+temp_hist<- ggplot(myAirquality, aes(x=Temp)) + geom_histogram(bins=5, color="black", fill="purple")+ggtitle("Temp Levels in 1973")
 ozone_hist
 solar_hist
 wind_hist
@@ -121,9 +121,13 @@ all_heatmap
 #RStep 6: Final Analysis
 #.Do you see any patterns after exploring the data?
 #
+print("I found that the data sets were all roughly displayed the same. When you brought 
+      the Solar measurements into the mix it would throw off the whole scale on the y axis.")
 #
 #.What was the most useful visualization?
 #
+print("I believe the most useful of these metrics to me would have been the line graph.
+      This is because you could easily just take this infomraiton and compare each day to each other.")
 #
 #
 #END OF SCRIPT
