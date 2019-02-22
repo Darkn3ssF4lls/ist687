@@ -1,7 +1,7 @@
 #############################################################################
 #Name: Daniel Lewis
 #Description: Homework Assignment 5
-#Date: 2/15/19 (JST)
+#Date: 2/22/19 (JST)
 #input: 
 #output: 
 #update history:
@@ -60,14 +60,10 @@ myAirquality$Solar.R[is.na(myAirquality$Solar.R)] <- mean(myAirquality$Solar.R, 
 #Create the following visualizationsusing ggplot:
 #.Histograms for each of the variables
 #
-ozone_hist<- ggplot(myAirquality, aes(x=Ozone)) + geom_histogram(bins=5, color="black", fill="white")
-ozone_hist<- ozone_hist+ggtitle("Ozone Levels in 1973")
-solar_hist<- ggplot(myAirquality, aes(x=Solar.R)) + geom_histogram(bins=5, color="black", fill="white")
-solar_hist<- solar_hist+ggtitle("Solar Levels in 1973")
-wind_hist<- ggplot(myAirquality, aes(x=Wind)) + geom_histogram(bins=5, color="black", fill="white")
-wind_hist<- wind_hist+ggtitle("Wind Levels in 1973")
-temp_hist<- ggplot(myAirquality, aes(x=Temp)) + geom_histogram(bins=5, color="black", fill="white")
-temp_hist<- temp_hist+ggtitle("Temp Levels in 1973")
+ozone_hist<- ggplot(myAirquality, aes(x=Ozone)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Ozone Levels in 1973")
+solar_hist<- ggplot(myAirquality, aes(x=Solar.R)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Solar Levels in 1973")
+wind_hist<- ggplot(myAirquality, aes(x=Wind)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Wind Levels in 1973")
+temp_hist<- ggplot(myAirquality, aes(x=Temp)) + geom_histogram(bins=5, color="black", fill="white")+ggtitle("Temp Levels in 1973")
 ozone_hist
 solar_hist
 wind_hist
@@ -94,6 +90,8 @@ solar_line<-ggplot(data=myAirquality,aes(x=date, y=Solar.R)) + geom_line(color="
 wind_line<-ggplot(data=myAirquality,aes(x=date, y=Wind)) + geom_line(color="green") + ggtitle("wind Levels Line") + labs(x="Dates", y="Wind Count")
 temp_line<-ggplot(data=myAirquality,aes(x=date, y=Temp)) + geom_line(color="purple") + ggtitle("Temp Levels Line") + labs(x="Dates", y="Temp Count")
 all_line<-ggplot(data=myAirquality, aes(date)) + geom_line(aes(y=Ozone),color="blue") + geom_line(aes(y=Solar.R),color="orange") + geom_line(aes(y=Wind),color="green") + geom_line(aes(y=Temp), color="purple")
+all_line<-all_line + ggtitle("Ozone, Solar, Wind, and Temp Levels 1973")
+all_line<-all_line + labs(x="Dates", y="Ozone/Solar/Wind/Temp")
 ozone_line
 solar_line
 wind_line
@@ -109,7 +107,12 @@ all_line
 #to be 'tiles' as opposed to 'lines' and the other geometry we have previously used).
 #Note that you need to figure out how to show the relative change equally across all the variables.
 #
-
+all_heatmap <- ggplot(data=myAirquality, aes(y=Day)) + geom_tile(aes(x=Ozone))
+all_heatmap <- all_heatmap+geom_tile(aes(x=Ozone), color="blue")
+all_heatmap <- all_heatmap+geom_tile(aes(x=Solar.R), color="orange")
+all_heatmap <- all_heatmap+geom_tile(aes(x=Wind), color="green")
+all_heatmap <- all_heatmap+geom_tile(aes(x=Temp), color="purple")
+all_heatmap
 #
 #Step 5: Look at all the data via a scatter chart
 #Create a scatter chart(using ggplot geom_point), with the x-axis representing the wind, the y-axis 
