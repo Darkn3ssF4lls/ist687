@@ -37,6 +37,7 @@ EnsurePackage("RJSONIO")
 EnsurePackage("RCurl")
 EnsurePackage("reshape2")
 EnsurePackage("sqldf")
+EnsurePackage("tidyr")
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -107,11 +108,7 @@ all_line
 #to be 'tiles' as opposed to 'lines' and the other geometry we have previously used).
 #Note that you need to figure out how to show the relative change equally across all the variables.
 #
-all_heatmap <- ggplot(data=myAirquality, aes(y=Day)) + geom_tile(aes(x=Ozone))
-all_heatmap <- all_heatmap+geom_tile(aes(x=Ozone), color="blue")
-all_heatmap <- all_heatmap+geom_tile(aes(x=Solar.R), color="orange")
-all_heatmap <- all_heatmap+geom_tile(aes(x=Wind), color="green")
-all_heatmap <- all_heatmap+geom_tile(aes(x=Temp), color="purple")
+all_heatmap <- ggplot(data = myAirquality, mapping = aes(x = Ozone,y = Day,fill = Ozone)) + geom_tile() + xlab(label = "Sample")
 all_heatmap
 #
 #Step 5: Look at all the data via a scatter chart
