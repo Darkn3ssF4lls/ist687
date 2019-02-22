@@ -1,0 +1,712 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={LewisDB\_HW6.R},
+            pdfauthor={dblewis},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{LewisDB\_HW6.R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{dblewis}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{Fri Feb 22 10:32:40 2019}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{#############################################################################}
+\CommentTok{#Name: Daniel Lewis}
+\CommentTok{#Description: Homework Assignment 5}
+\CommentTok{#Date: 2/22/19 (JST)}
+\CommentTok{#input: airquality data set}
+\CommentTok{#output: 4 histograms, 5 line charts, 1 heatmap, 1 scatter plot}
+\CommentTok{#update history:}
+\NormalTok{#############################################################################}
+\NormalTok{###################HW6 Viz HW: air quality Analysis##########################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\NormalTok{#############################################################################}
+\NormalTok{############################LOCAL FUNCTIONS##################################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\NormalTok{EnsurePackage<-}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{   x<-}\KeywordTok{as.character}\NormalTok{(x)}
+   \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\KeywordTok{require}\NormalTok{(x,}\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{))\{}
+       \KeywordTok{install.packages}\NormalTok{(}\DataTypeTok{pkgs=}\NormalTok{x, }\DataTypeTok{repos=}\StringTok{"http://cran.r-project.org"}\NormalTok{)}
+       \KeywordTok{require}\NormalTok{(x, }\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{     \}}
+\NormalTok{\}}
+\NormalTok{Numberize <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(inputVector)}
+\NormalTok{\{}
+\NormalTok{  inputVector <-}\StringTok{ }\KeywordTok{gsub}\NormalTok{(}\StringTok{","}\NormalTok{, }\StringTok{""}\NormalTok{, inputVector)}
+\NormalTok{  inputVector <-}\StringTok{ }\KeywordTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{""}\NormalTok{, inputVector)}
+  \KeywordTok{return}\NormalTok{(inputVector)}
+\NormalTok{\}}
+\CommentTok{#}
+\NormalTok{#############################################################################}
+\NormalTok{#############################IMPORTS SECTION#################################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: S3 methods '[.fun_list', '[.grouped_df', 'all.equal.tbl_df',
+## 'anti_join.data.frame', 'anti_join.tbl_df', 'arrange.data.frame',
+## 'arrange.default', 'arrange.grouped_df', 'arrange.tbl_df',
+## 'arrange_.data.frame', 'arrange_.tbl_df', 'as.data.frame.grouped_df',
+## 'as.data.frame.rowwise_df', 'as.data.frame.tbl_cube', 'as.table.tbl_cube',
+## 'as.tbl.data.frame', 'as.tbl.tbl', 'as.tbl_cube.array',
+## 'as.tbl_cube.data.frame', 'as.tbl_cube.matrix', 'as.tbl_cube.table',
+## 'as_tibble.grouped_df', 'as_tibble.tbl_cube', 'auto_copy.tbl_cube',
+## 'auto_copy.tbl_df', 'cbind.grouped_df', 'collapse.data.frame',
+## 'collect.data.frame', 'common_by.NULL', 'common_by.character',
+## 'common_by.default', 'common_by.list', 'compute.data.frame',
+## 'copy_to.DBIConnection', 'copy_to.src_local', 'default_missing.data.frame',
+## 'default_missing.default', 'dim.tbl_cube', 'distinct.data.frame',
+## 'distinct.default', 'distinct.grouped_df', 'distinct.tbl_df',
+## 'distinct_.data.frame', 'distinct_.grouped_df', 'distinct_.tbl_df',
+## 'do.NULL', 'do.data.frame', 'do.default', 'do.grouped_df', 'do.rowwise_df',
+## 'do_.NULL', 'do_.data.frame', 'do_.grouped_df', 'do_.rowwise_df',
+## 'filter.data.frame', 'filter.default', 'filter.tbl_cube', 'filter.tbl_df',
+## 'filter.ts', 'filter_.data.frame', 'filter_.tbl_cube', 'filter_.tbl_df',
+## 'format.src_local', 'full_join.data.frame', 'full_join.tbl_df',
+## 'group_by.data.frame', 'group_by.default', 'group_by.rowwise_df',
+## 'group_by.tbl_cube', 'group_by_.data.frame', 'group_by_.rowwise_df',
+## 'group_by_.tbl_cube', 'group_data.data.frame', 'group_data.grouped_df',
+## 'group_data.rowwise_df', 'group_indices.data.frame',
+## 'group_indices.default', 'group_indices.grouped_df',
+## 'group_indices.rowwise_df', 'group_indices_.data.frame',
+## 'group_indices_.grouped_df', 'group_indices_.rowwise_df',
+## 'group_keys.data.frame', 'group_keys.grouped_df', 'group_keys.rowwise_df',
+## 'group_map.function', 'group_map.data.frame', 'group_map.formula',
+## 'group_map.grouped_df', 'group_nest.data.frame', 'group_nest.grouped_df',
+## 'group_size.data.frame', 'group_size.grouped_df', 'group_size.rowwise_df',
+## 'group_split.data.frame', 'group_split.grouped_df',
+## 'group_split.rowwise_df', 'group_trim.data.frame', 'group_trim.grouped_df',
+## 'group_vars.default', 'group_vars.grouped_df', 'group_vars.tbl_cube',
+## 'group_walk.data.frame', 'group_walk.grouped_df', 'groups.data.frame',
+## 'groups.grouped_df', 'groups.tbl_cube', 'hybrid_call.data.frame',
+## 'inner_join.data.frame', 'inner_join.tbl_df', 'intersect.data.frame',
+## 'intersect.default', 'left_join.data.frame', 'left_join.tbl_df',
+## 'mutate.data.frame', 'mutate.default', 'mutate.tbl_df',
+## 'mutate_.data.frame', 'mutate_.tbl_df', 'n_groups.data.frame',
+## 'n_groups.grouped_df', 'n_groups.rowwise_df', 'nest_join.data.frame',
+## 'nest_join.tbl_df', 'print.BoolResult', 'print.all_vars', 'print.any_vars',
+## 'print.dplyr_sel_vars', 'print.fun_list', 'print.hybrid_call',
+## 'print.location', 'print.rowwise_df', 'print.src', 'print.tbl_cube',
+## 'pull.data.frame', 'rbind.grouped_df', 'recode.character',
+## 'recode.factor', 'recode.numeric', 'rename.data.frame', 'rename.default',
+## 'rename.grouped_df', 'rename.tbl_cube', 'rename_.data.frame',
+## 'rename_.grouped_df', 'rename_.tbl_cube', 'right_join.data.frame',
+## 'right_join.tbl_df', 'same_src.data.frame', 'same_src.tbl_cube',
+## 'sample_frac.data.frame', 'sample_frac.default', 'sample_n.data.frame',
+## 'sample_n.default', 'select.data.frame', 'select.default',
+## 'select.grouped_df', 'select.tbl_cube', 'select_.data.frame',
+## 'select_.grouped_df', 'select_.tbl_cube', 'semi_join.data.frame',
+## 'semi_join.tbl_df', 'setdiff.data.frame', 'setdiff.default',
+## 'setequal.data.frame', 'setequal.default', 'slice.data.frame',
+## 'slice.default', 'slice.tbl_df', 'slice_.data.frame', 'slice_.tbl_df',
+## 'src_tbls.src_local', 'summarise.data.frame', 'summarise.default',
+## 'summarise.tbl_cube', 'summarise.tbl_df', 'summarise_.data.frame',
+## 'summarise_.tbl_cube', 'summarise_.tbl_df', 'tbl.DBIConnection',
+## 'tbl.src_local', 'tbl_sum.grouped_df', 'tbl_vars.data.frame',
+## 'tbl_vars.tbl_cube', 'transmute.default', 'transmute.grouped_df',
+## 'transmute_.default', 'transmute_.grouped_df', 'ungroup.data.frame',
+## 'ungroup.grouped_df', 'ungroup.rowwise_df', 'union.data.frame',
+## 'union.default', 'union_all.data.frame', 'union_all.default' were declared
+## in NAMESPACE but not found
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"ggmap"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggmap
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: S3 methods '[.fun_list', '[.grouped_df', 'all.equal.tbl_df',
+## 'anti_join.data.frame', 'anti_join.tbl_df', 'arrange.data.frame',
+## 'arrange.default', 'arrange.grouped_df', 'arrange.tbl_df',
+## 'arrange_.data.frame', 'arrange_.tbl_df', 'as.data.frame.grouped_df',
+## 'as.data.frame.rowwise_df', 'as.data.frame.tbl_cube', 'as.table.tbl_cube',
+## 'as.tbl.data.frame', 'as.tbl.tbl', 'as.tbl_cube.array',
+## 'as.tbl_cube.data.frame', 'as.tbl_cube.matrix', 'as.tbl_cube.table',
+## 'as_tibble.grouped_df', 'as_tibble.tbl_cube', 'auto_copy.tbl_cube',
+## 'auto_copy.tbl_df', 'cbind.grouped_df', 'collapse.data.frame',
+## 'collect.data.frame', 'common_by.NULL', 'common_by.character',
+## 'common_by.default', 'common_by.list', 'compute.data.frame',
+## 'copy_to.DBIConnection', 'copy_to.src_local', 'default_missing.data.frame',
+## 'default_missing.default', 'dim.tbl_cube', 'distinct.data.frame',
+## 'distinct.default', 'distinct.grouped_df', 'distinct.tbl_df',
+## 'distinct_.data.frame', 'distinct_.grouped_df', 'distinct_.tbl_df',
+## 'do.NULL', 'do.data.frame', 'do.default', 'do.grouped_df', 'do.rowwise_df',
+## 'do_.NULL', 'do_.data.frame', 'do_.grouped_df', 'do_.rowwise_df',
+## 'filter.data.frame', 'filter.default', 'filter.tbl_cube', 'filter.tbl_df',
+## 'filter.ts', 'filter_.data.frame', 'filter_.tbl_cube', 'filter_.tbl_df',
+## 'format.src_local', 'full_join.data.frame', 'full_join.tbl_df',
+## 'group_by.data.frame', 'group_by.default', 'group_by.rowwise_df',
+## 'group_by.tbl_cube', 'group_by_.data.frame', 'group_by_.rowwise_df',
+## 'group_by_.tbl_cube', 'group_data.data.frame', 'group_data.grouped_df',
+## 'group_data.rowwise_df', 'group_indices.data.frame',
+## 'group_indices.default', 'group_indices.grouped_df',
+## 'group_indices.rowwise_df', 'group_indices_.data.frame',
+## 'group_indices_.grouped_df', 'group_indices_.rowwise_df',
+## 'group_keys.data.frame', 'group_keys.grouped_df', 'group_keys.rowwise_df',
+## 'group_map.function', 'group_map.data.frame', 'group_map.formula',
+## 'group_map.grouped_df', 'group_nest.data.frame', 'group_nest.grouped_df',
+## 'group_size.data.frame', 'group_size.grouped_df', 'group_size.rowwise_df',
+## 'group_split.data.frame', 'group_split.grouped_df',
+## 'group_split.rowwise_df', 'group_trim.data.frame', 'group_trim.grouped_df',
+## 'group_vars.default', 'group_vars.grouped_df', 'group_vars.tbl_cube',
+## 'group_walk.data.frame', 'group_walk.grouped_df', 'groups.data.frame',
+## 'groups.grouped_df', 'groups.tbl_cube', 'hybrid_call.data.frame',
+## 'inner_join.data.frame', 'inner_join.tbl_df', 'intersect.data.frame',
+## 'intersect.default', 'left_join.data.frame', 'left_join.tbl_df',
+## 'mutate.data.frame', 'mutate.default', 'mutate.tbl_df',
+## 'mutate_.data.frame', 'mutate_.tbl_df', 'n_groups.data.frame',
+## 'n_groups.grouped_df', 'n_groups.rowwise_df', 'nest_join.data.frame',
+## 'nest_join.tbl_df', 'print.BoolResult', 'print.all_vars', 'print.any_vars',
+## 'print.dplyr_sel_vars', 'print.fun_list', 'print.hybrid_call',
+## 'print.location', 'print.rowwise_df', 'print.src', 'print.tbl_cube',
+## 'pull.data.frame', 'rbind.grouped_df', 'recode.character',
+## 'recode.factor', 'recode.numeric', 'rename.data.frame', 'rename.default',
+## 'rename.grouped_df', 'rename.tbl_cube', 'rename_.data.frame',
+## 'rename_.grouped_df', 'rename_.tbl_cube', 'right_join.data.frame',
+## 'right_join.tbl_df', 'same_src.data.frame', 'same_src.tbl_cube',
+## 'sample_frac.data.frame', 'sample_frac.default', 'sample_n.data.frame',
+## 'sample_n.default', 'select.data.frame', 'select.default',
+## 'select.grouped_df', 'select.tbl_cube', 'select_.data.frame',
+## 'select_.grouped_df', 'select_.tbl_cube', 'semi_join.data.frame',
+## 'semi_join.tbl_df', 'setdiff.data.frame', 'setdiff.default',
+## 'setequal.data.frame', 'setequal.default', 'slice.data.frame',
+## 'slice.default', 'slice.tbl_df', 'slice_.data.frame', 'slice_.tbl_df',
+## 'src_tbls.src_local', 'summarise.data.frame', 'summarise.default',
+## 'summarise.tbl_cube', 'summarise.tbl_df', 'summarise_.data.frame',
+## 'summarise_.tbl_cube', 'summarise_.tbl_df', 'tbl.DBIConnection',
+## 'tbl.src_local', 'tbl_sum.grouped_df', 'tbl_vars.data.frame',
+## 'tbl_vars.tbl_cube', 'transmute.default', 'transmute.grouped_df',
+## 'transmute_.default', 'transmute_.grouped_df', 'ungroup.data.frame',
+## 'ungroup.grouped_df', 'ungroup.rowwise_df', 'union.data.frame',
+## 'union.default', 'union_all.data.frame', 'union_all.default' were declared
+## in NAMESPACE but not found
+\end{verbatim}
+
+\begin{verbatim}
+## Error: package or namespace load failed for 'ggmap' in library.dynam(lib, package, package.lib):
+##  DLL 'dplyr' not found: maybe not installed for this architecture?
+\end{verbatim}
+
+\begin{verbatim}
+## package 'ggmap' successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\dblewis\AppData\Local\Temp\RtmpqOKB5T\downloaded_packages
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: ggmap
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: S3 methods '[.fun_list', '[.grouped_df', 'all.equal.tbl_df',
+## 'anti_join.data.frame', 'anti_join.tbl_df', 'arrange.data.frame',
+## 'arrange.default', 'arrange.grouped_df', 'arrange.tbl_df',
+## 'arrange_.data.frame', 'arrange_.tbl_df', 'as.data.frame.grouped_df',
+## 'as.data.frame.rowwise_df', 'as.data.frame.tbl_cube', 'as.table.tbl_cube',
+## 'as.tbl.data.frame', 'as.tbl.tbl', 'as.tbl_cube.array',
+## 'as.tbl_cube.data.frame', 'as.tbl_cube.matrix', 'as.tbl_cube.table',
+## 'as_tibble.grouped_df', 'as_tibble.tbl_cube', 'auto_copy.tbl_cube',
+## 'auto_copy.tbl_df', 'cbind.grouped_df', 'collapse.data.frame',
+## 'collect.data.frame', 'common_by.NULL', 'common_by.character',
+## 'common_by.default', 'common_by.list', 'compute.data.frame',
+## 'copy_to.DBIConnection', 'copy_to.src_local', 'default_missing.data.frame',
+## 'default_missing.default', 'dim.tbl_cube', 'distinct.data.frame',
+## 'distinct.default', 'distinct.grouped_df', 'distinct.tbl_df',
+## 'distinct_.data.frame', 'distinct_.grouped_df', 'distinct_.tbl_df',
+## 'do.NULL', 'do.data.frame', 'do.default', 'do.grouped_df', 'do.rowwise_df',
+## 'do_.NULL', 'do_.data.frame', 'do_.grouped_df', 'do_.rowwise_df',
+## 'filter.data.frame', 'filter.default', 'filter.tbl_cube', 'filter.tbl_df',
+## 'filter.ts', 'filter_.data.frame', 'filter_.tbl_cube', 'filter_.tbl_df',
+## 'format.src_local', 'full_join.data.frame', 'full_join.tbl_df',
+## 'group_by.data.frame', 'group_by.default', 'group_by.rowwise_df',
+## 'group_by.tbl_cube', 'group_by_.data.frame', 'group_by_.rowwise_df',
+## 'group_by_.tbl_cube', 'group_data.data.frame', 'group_data.grouped_df',
+## 'group_data.rowwise_df', 'group_indices.data.frame',
+## 'group_indices.default', 'group_indices.grouped_df',
+## 'group_indices.rowwise_df', 'group_indices_.data.frame',
+## 'group_indices_.grouped_df', 'group_indices_.rowwise_df',
+## 'group_keys.data.frame', 'group_keys.grouped_df', 'group_keys.rowwise_df',
+## 'group_map.function', 'group_map.data.frame', 'group_map.formula',
+## 'group_map.grouped_df', 'group_nest.data.frame', 'group_nest.grouped_df',
+## 'group_size.data.frame', 'group_size.grouped_df', 'group_size.rowwise_df',
+## 'group_split.data.frame', 'group_split.grouped_df',
+## 'group_split.rowwise_df', 'group_trim.data.frame', 'group_trim.grouped_df',
+## 'group_vars.default', 'group_vars.grouped_df', 'group_vars.tbl_cube',
+## 'group_walk.data.frame', 'group_walk.grouped_df', 'groups.data.frame',
+## 'groups.grouped_df', 'groups.tbl_cube', 'hybrid_call.data.frame',
+## 'inner_join.data.frame', 'inner_join.tbl_df', 'intersect.data.frame',
+## 'intersect.default', 'left_join.data.frame', 'left_join.tbl_df',
+## 'mutate.data.frame', 'mutate.default', 'mutate.tbl_df',
+## 'mutate_.data.frame', 'mutate_.tbl_df', 'n_groups.data.frame',
+## 'n_groups.grouped_df', 'n_groups.rowwise_df', 'nest_join.data.frame',
+## 'nest_join.tbl_df', 'print.BoolResult', 'print.all_vars', 'print.any_vars',
+## 'print.dplyr_sel_vars', 'print.fun_list', 'print.hybrid_call',
+## 'print.location', 'print.rowwise_df', 'print.src', 'print.tbl_cube',
+## 'pull.data.frame', 'rbind.grouped_df', 'recode.character',
+## 'recode.factor', 'recode.numeric', 'rename.data.frame', 'rename.default',
+## 'rename.grouped_df', 'rename.tbl_cube', 'rename_.data.frame',
+## 'rename_.grouped_df', 'rename_.tbl_cube', 'right_join.data.frame',
+## 'right_join.tbl_df', 'same_src.data.frame', 'same_src.tbl_cube',
+## 'sample_frac.data.frame', 'sample_frac.default', 'sample_n.data.frame',
+## 'sample_n.default', 'select.data.frame', 'select.default',
+## 'select.grouped_df', 'select.tbl_cube', 'select_.data.frame',
+## 'select_.grouped_df', 'select_.tbl_cube', 'semi_join.data.frame',
+## 'semi_join.tbl_df', 'setdiff.data.frame', 'setdiff.default',
+## 'setequal.data.frame', 'setequal.default', 'slice.data.frame',
+## 'slice.default', 'slice.tbl_df', 'slice_.data.frame', 'slice_.tbl_df',
+## 'src_tbls.src_local', 'summarise.data.frame', 'summarise.default',
+## 'summarise.tbl_cube', 'summarise.tbl_df', 'summarise_.data.frame',
+## 'summarise_.tbl_cube', 'summarise_.tbl_df', 'tbl.DBIConnection',
+## 'tbl.src_local', 'tbl_sum.grouped_df', 'tbl_vars.data.frame',
+## 'tbl_vars.tbl_cube', 'transmute.default', 'transmute.grouped_df',
+## 'transmute_.default', 'transmute_.grouped_df', 'ungroup.data.frame',
+## 'ungroup.grouped_df', 'ungroup.rowwise_df', 'union.data.frame',
+## 'union.default', 'union_all.data.frame', 'union_all.default' were declared
+## in NAMESPACE but not found
+\end{verbatim}
+
+\begin{verbatim}
+## Error: package or namespace load failed for 'ggmap' in library.dynam(lib, package, package.lib):
+##  DLL 'dplyr' not found: maybe not installed for this architecture?
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"RJSONIO"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: RJSONIO
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"RCurl"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: RCurl
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: bitops
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"reshape2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: reshape2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"sqldf"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: sqldf
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: gsubfn
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: proto
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: RSQLite
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"tidyr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: tidyr
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'tidyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:reshape2':
+## 
+##     smiths
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:RCurl':
+## 
+##     complete
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\NormalTok{#############################################################################}
+\NormalTok{#############################Problems Solved#################################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\CommentTok{#}
+\CommentTok{#Step 1: Load the data }
+\CommentTok{#We will use the air quality data set, which you should already have as part of your R installation.}
+\CommentTok{#}
+\NormalTok{myAirquality<-airquality}
+\CommentTok{#}
+\CommentTok{#Step 2: Clean the data}
+\CommentTok{#After you load the data, there will be some NAs in the data. You need to figure out what to do}
+\CommentTok{#about those nasty NAs.}
+\CommentTok{#}
+\KeywordTok{colnames}\NormalTok{(myAirquality)[}\KeywordTok{colSums}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(myAirquality))}\OperatorTok{>}\DecValTok{0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Ozone"   "Solar.R"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Ozone[}\KeywordTok{is.na}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Ozone)] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Ozone, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Solar.R[}\KeywordTok{is.na}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Solar.R)] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Solar.R, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\CommentTok{#}
+\CommentTok{#Step 3: Understand the data distribution}
+\CommentTok{#Create the following visualizationsusing ggplot:}
+\CommentTok{#.Histograms for each of the variables}
+\CommentTok{#}
+\NormalTok{ozone_hist<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Ozone)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins=}\DecValTok{5}\NormalTok{, }\DataTypeTok{color=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"blue"}\NormalTok{)}\OperatorTok{+}\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ozone Levels in 1973"}\NormalTok{)}
+\NormalTok{solar_hist<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Solar.R)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins=}\DecValTok{5}\NormalTok{, }\DataTypeTok{color=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"orange"}\NormalTok{)}\OperatorTok{+}\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Solar Levels in 1973"}\NormalTok{)}
+\NormalTok{wind_hist<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Wind)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins=}\DecValTok{5}\NormalTok{, }\DataTypeTok{color=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"green"}\NormalTok{)}\OperatorTok{+}\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Wind Levels in 1973"}\NormalTok{)}
+\NormalTok{temp_hist<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Temp)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins=}\DecValTok{5}\NormalTok{, }\DataTypeTok{color=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{fill=}\StringTok{"purple"}\NormalTok{)}\OperatorTok{+}\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Temp Levels in 1973"}\NormalTok{)}
+\NormalTok{ozone_hist}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{solar_hist}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wind_hist}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp_hist}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#.Boxplot for Ozone}
+\CommentTok{#}
+\NormalTok{ozone_box<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{factor}\NormalTok{(}\DecValTok{0}\NormalTok{),Ozone)) }\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ozone Box Plot"}\NormalTok{)}
+\NormalTok{ozone_box}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#.Boxplot for wind values (round the wind to get a good number of "buckets")}
+\CommentTok{#}
+\NormalTok{wind_box<-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\KeywordTok{factor}\NormalTok{(}\DecValTok{0}\NormalTok{),Wind)) }\OperatorTok{+}\KeywordTok{geom_boxplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Wind Box Plot"}\NormalTok{)}
+\NormalTok{wind_box}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#Step 3: Explore how the data changes over time}
+\CommentTok{#First, make sure to create appropriate dates (this data was from 1973). Then create line charts}
+\CommentTok{#for ozone, temp, wind and solar.R(one line chart for each, and then one chart with 4 lines, }
+\CommentTok{#each having a different color). }
+\CommentTok{#}
+\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{date<-}\KeywordTok{as.Date}\NormalTok{(}\KeywordTok{Numberize}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{paste}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Month,}\StringTok{"/"}\NormalTok{,myAirquality}\OperatorTok{$}\NormalTok{Day,}\StringTok{"/"}\NormalTok{, }\StringTok{"73"}\NormalTok{))), }\DataTypeTok{format =} \StringTok{"%m/%d/%y"}\NormalTok{)}
+\NormalTok{ozone_line<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{date, }\DataTypeTok{y=}\NormalTok{Ozone)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{color=}\StringTok{"blue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ozone Levels Line"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Dates"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Ozone Count"}\NormalTok{)}
+\NormalTok{solar_line<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{date, }\DataTypeTok{y=}\NormalTok{Solar.R)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{color=}\StringTok{"orange"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Solar Levels Line"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Dates"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Solar Count"}\NormalTok{)}
+\NormalTok{wind_line<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{date, }\DataTypeTok{y=}\NormalTok{Wind)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{color=}\StringTok{"green"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"wind Levels Line"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Dates"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Wind Count"}\NormalTok{)}
+\NormalTok{temp_line<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{date, }\DataTypeTok{y=}\NormalTok{Temp)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\DataTypeTok{color=}\StringTok{"purple"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Temp Levels Line"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Dates"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Temp Count"}\NormalTok{)}
+\NormalTok{all_line<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality, }\KeywordTok{aes}\NormalTok{(date)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{Ozone),}\DataTypeTok{color=}\StringTok{"blue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{Solar.R),}\DataTypeTok{color=}\StringTok{"orange"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{Wind),}\DataTypeTok{color=}\StringTok{"green"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_line}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{Temp), }\DataTypeTok{color=}\StringTok{"purple"}\NormalTok{)}
+\NormalTok{all_line<-all_line }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Ozone, Solar, Wind, and Temp Levels 1973"}\NormalTok{)}
+\NormalTok{all_line<-all_line }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x=}\StringTok{"Dates"}\NormalTok{, }\DataTypeTok{y=}\StringTok{"Ozone/Solar/Wind/Temp"}\NormalTok{)}
+\NormalTok{ozone_line}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{solar_line}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wind_line}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-9.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{temp_line}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-10.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all_line}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-11.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#Create these visualizations using ggplot.Note that for the chart with 4 lines, you need to think}
+\CommentTok{#about how to effectively use the y-axis.}
+\CommentTok{#}
+\CommentTok{#Step 4: Look at all thedata via a Heatmap}
+\CommentTok{#Create a heatmap, with each day along the x-axis and ozone, temp, wind and solar.r along the y-axis,}
+\CommentTok{#and days as rows along the y-axis. Great the heatmap using geom_tile(this defines the ggplotgeometry}
+\CommentTok{#to be 'tiles' as opposed to 'lines' and the other geometry we have previously used).}
+\CommentTok{#Note that you need to figure out how to show the relative change equally across all the variables.}
+\CommentTok{#}
+\NormalTok{melted_data <-}\StringTok{ }\KeywordTok{melt}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(myAirquality[,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{]))}
+\KeywordTok{names}\NormalTok{(melted_data) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{'Days'}\NormalTok{,}\StringTok{'Source'}\NormalTok{,}\StringTok{'Range'}\NormalTok{)}
+\NormalTok{all_heatmap<-}\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{melted_data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y=}\NormalTok{Days, }\DataTypeTok{x=}\NormalTok{Source, }\DataTypeTok{fill=}\NormalTok{Range)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_tile}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Heatmap of All 1973 Sources"}\NormalTok{)}
+\NormalTok{all_heatmap}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-12.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#Step 5: Look at all the data via a scatter chart}
+\CommentTok{#Create a scatter chart(using ggplot geom_point), with the x-axis representing the wind, the y-axis }
+\CommentTok{#representing the temperature, the size of each dot representing the ozone and the color representing }
+\CommentTok{#the solar.}
+\CommentTok{#}
+\NormalTok{scaterplot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data=}\NormalTok{myAirquality, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Wind, }\DataTypeTok{y=}\NormalTok{Temp, }\DataTypeTok{size=}\NormalTok{Ozone, }\DataTypeTok{color=}\NormalTok{Solar.R)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Scatter Plot of Air Quality 1973"}\NormalTok{)}
+\NormalTok{scaterplot}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW6_files/figure-latex/unnamed-chunk-1-13.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#RStep 6: Final Analysis}
+\CommentTok{#.Do you see any patterns after exploring the data?}
+\CommentTok{#}
+\KeywordTok{print}\NormalTok{(}\StringTok{"I found that the data sets were all roughly displayed the same. When you brought }
+\StringTok{      the Solar measurements into the mix it would throw off the whole scale on the y axis."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "I found that the data sets were all roughly displayed the same. When you brought \n      the Solar measurements into the mix it would throw off the whole scale on the y axis."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#.What was the most useful visualization?}
+\CommentTok{#}
+\KeywordTok{print}\NormalTok{(}\StringTok{"I believe the most useful of these metrics to me would have been the line graph.}
+\StringTok{      This is because you could easily just take this infomraiton and compare each day to each other."}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "I believe the most useful of these metrics to me would have been the line graph.\n      This is because you could easily just take this infomraiton and compare each day to each other."
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#}
+\CommentTok{#}
+\CommentTok{#}\RegionMarkerTok{END}\CommentTok{ OF SCRIPT}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
