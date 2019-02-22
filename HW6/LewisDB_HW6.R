@@ -2,8 +2,8 @@
 #Name: Daniel Lewis
 #Description: Homework Assignment 5
 #Date: 2/22/19 (JST)
-#input: 
-#output: 
+#input: airquality data set
+#output: 4 histograms, 5 line charts, 1 heatmap, 1 scatter plot
 #update history:
 #############################################################################
 ###################HW6 Viz HW: air quality Analysis##########################
@@ -108,7 +108,9 @@ all_line
 #to be 'tiles' as opposed to 'lines' and the other geometry we have previously used).
 #Note that you need to figure out how to show the relative change equally across all the variables.
 #
-all_heatmap <- ggplot(data = myAirquality, mapping = aes(x = Ozone,y = Day,fill = Ozone)) + geom_tile() + xlab(label = "Sample")
+melted_data <- melt(as.matrix(myAirquality[,1:4]))
+names(melted_data) <- c('Days','Source','Range')
+all_heatmap<-ggplot(data=melted_data, aes(y=Days, x=Source, fill=Range)) + geom_tile() + ggtitle("Heatmap of All 1973 Sources")
 all_heatmap
 #
 #Step 5: Look at all the data via a scatter chart
@@ -116,7 +118,8 @@ all_heatmap
 #representing the temperature, the size of each dot representing the ozone and the color representing 
 #the solar.
 #
-
+scaterplot <- ggplot(data=myAirquality, aes(x=Wind, y=Temp, size=Ozone, color=Solar.R)) + geom_point() + ggtitle("Scatter Plot of Air Quality 1973")
+scaterplot
 #
 #RStep 6: Final Analysis
 #.Do you see any patterns after exploring the data?
