@@ -24,14 +24,22 @@ Numberize <- function(inputVector)
 {
   inputVector <- gsub(",", "", inputVector)
   inputVector <- gsub(" ", "", inputVector)
-  return(inputVector)
+  return(as.numeric(inputVector))
 }
 #
 #############################################################################
 #############################IMPORTS SECTION#################################
 #############################################################################
-#
-EnsurePackage()
+
+#Packages
+EnsurePackage("gdata")
+EnsurePackage("ggmap")
+EnsurePackage("ggplot2")
+EnsurePackage("RJSONIO")
+EnsurePackage("mapproj")
+EnsurePackage("RCurl")
+#DataSets
+csv_inport <- data.frame(read.csv("~/MedianZIP-3.csv", stringsAsFactors = FALSE))
 #
 #############################################################################
 #############################Problems Solved#################################
