@@ -42,7 +42,9 @@ EnsurePackage("RCurl")
 #DataSets
 getwd()
 here::here()
-csv_inport <- data.frame(read.csv(here::here("Documents", "github", "IST687-Data-Science", "MedianZIP-3.csv")))
+
+csv_import<-read.csv("MedianZIP-3.csv") #moved csv file to the folder R wants it in
+#csv_import<-read.csv(here::here("github", "IST687-Data-Science", "MedianZIP-3.csv")) # can't figure out why it wont work from the script location
 #
 #############################################################################
 #############################Problems Solved#################################
