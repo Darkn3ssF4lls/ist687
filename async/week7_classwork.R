@@ -14,7 +14,7 @@ Numberize <- function(inputVector)
 {
   inputVector <- gsub(",", "", inputVector)
   inputVector <- gsub(" ", "", inputVector)
-  return(inputVector)
+  return(as.numeric(inputVector))
 }
 ###############Functions for Chapter 7#######################
 #
@@ -152,9 +152,9 @@ map.simple<- map.simple+coord_map() + ggtitle("basic map of USA")
 
 us <-map_data("state")
 dfStates<-readCensus()
-dfStates$statename<-tolower(dfStates$statename)
+dfStates$state<-tolower(dfStates$statename)
 
-map.popColor<-ggplot(dfStates,aes(map_id=state)) #returns map with colors if statename
+map.popColor<-ggplot(dfStates,aes(map_id=state))
 map.popColor<-map.popColor+ geom_map(map=us, aes(fill=april10base))
 map.popcolor<-map.popColor+expand_limits(x=us$long, y=us$lat)
 map.popColor<-map.popcolor+coord_map()+ggtitle("State Population")
