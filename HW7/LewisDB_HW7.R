@@ -35,11 +35,14 @@ Numberize <- function(inputVector)
 EnsurePackage("gdata")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
+EnsurePackage("here")
 EnsurePackage("RJSONIO")
 EnsurePackage("mapproj")
 EnsurePackage("RCurl")
 #DataSets
-csv_inport <- data.frame(read.csv("~/MedianZIP-3.csv", stringsAsFactors = FALSE))
+getwd()
+here::here()
+csv_inport <- data.frame(read.csv(here::here("Documents", "github", "IST687-Data-Science", "MedianZIP-3.csv")))
 #
 #############################################################################
 #############################Problems Solved#################################
