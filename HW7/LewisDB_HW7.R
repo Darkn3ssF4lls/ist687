@@ -32,19 +32,14 @@ Numberize <- function(inputVector)
 #############################################################################
 
 #Packages
-EnsurePackage("gdata")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
-EnsurePackage("here")
-EnsurePackage("RJSONIO")
-EnsurePackage("mapproj")
-EnsurePackage("RCurl")
+EnsurePackage("zipcode")
 #DataSets
-getwd()
-here::here()
-
-csv_import<-read.csv("MedianZIP-3.csv") #moved csv file to the folder R wants it in
-#csv_import<-read.csv(here::here("github", "IST687-Data-Science", "MedianZIP-3.csv")) # can't figure out why it wont work from the script location
+#######Works on Window by hitting the source button [sets working directory to the script folder]
+this.dir <- dirname(parent.frame(2)$ofile)
+setwd(this.dir)
+csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -64,9 +59,9 @@ csv_import<-read.csv("MedianZIP-3.csv") #moved csv file to the folder R wants it
 #
 
 #
-##3) Load the ‘zipcode’ package
+##3) Load the "zipcode" package
 #
-
+#see imports section
 #
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 #
