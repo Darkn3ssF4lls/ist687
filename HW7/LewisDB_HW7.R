@@ -1,7 +1,7 @@
 #############################################################################
 #Name: Daniel Lewis
 #Description: Homework Assignment 7
-#Date: 2/23/19 (JST)
+#Date: 2/25/19 (JST)
 #input: MedianZIP-3.csv
 #output:
 #update history:
@@ -30,14 +30,15 @@ Numberize <- function(inputVector)
 #############################################################################
 #############################IMPORTS SECTION#################################
 #############################################################################
-
-#Packages
-EnsurePackage("sqldf")
+#Packages#
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
+EnsurePackage("sqldf")
+EnsurePackage("reprex")
 EnsurePackage("zipcode")
-#DataSets
-#######Works on Window by hitting the source button [sets working directory to the script folder]
+#DataSets#
+###Works on my windows 10 and mac machines by hitting the source button#
+###[sets working directory to the script folder]#
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
@@ -50,49 +51,48 @@ csv_backup<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #Step 1: Load the Data
 ##1) Read the data using the gdata package we have previously used.
 ##2) Clean up the dataframe
-###a. Remove any info at the front of the file that’s not needed
-#
-#csv_import$zip<-csv_backup$Zip
+###a. Remove any info at the front of the file that not needed
 ###b. Update the column names (zip, median, mean, population)
+##3) Load the "zipcode" package
+#see imports section for loading package
+#
 colnames(csv_import)<-c('zip', 'median', 'mean', 'population')
 csv_import$median<-Numberize(csv_import$median)
 csv_import$mean<-Numberize(csv_import$mean)
 csv_import$population<-Numberize(csv_import$population)
 csv_import$zip<-paste(0,csv_import$zip)
 csv_import$zip<-gsub(" ", "", csv_import$zip)
-##3) Load the "zipcode" package
-#
-#see imports section
-#
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
-#
-data(zipcode)
-#
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
-#
+#gnerate zipcode and create backup 
+data(zipcode)
+zipcode_backup<-zipcode
 zipcode<- sqldf("SELECT * 
       FROM zipcode 
-      WHERE state NOT IN ('AA','AE','AK','AP','AS','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
+      WHERE state NOT IN ('AA','AE','AK','AP','AS','DC','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
+#
 zipcode_joincsv<-sqldf("select * 
                        from zipcode 
                        left join (select zip, median, mean, population from csv_import) using (zip)")
-zipcode_joincsv<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
+zipcode_joincsv_nona<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
 zipcode_joincsv$state<-sort(zipcode_joincsv$state)
-rownames(zipcode_joincsv)<-NULL
-write.csv(zipcode_joincsv, "testing.csv")
+zipcode_joincsv_nona$state<-sort(zipcode_joincsv_nona$state)
+rownames(zipcode_joincsv_nona)<-NULL
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
-#
-
-#
-##2) Add the state abbreviations and the state names as new columns (make sure the state names are all lower case)
-#
-
-#
+##2) Add the state abbreviations and the state names as new columns (make sure the state names are all lower case)#
+states<-tolower(state.name)
+states<-states[-2]
+states<-states[-10]
+abv<-tolower(c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
+population<-NULL
+median_income<-NULL
+step2_df<-data.frame(states, abv) #, population, median_income)
 ##3) Show the U.S. map, representing the color with the average median income of that state
 #
-
+us<-map_data("states")
+step2_map<-ggplot(data=step2_df, map_id=state))
 #
 ##4) Create a second map with color representing the population of the state
 #
