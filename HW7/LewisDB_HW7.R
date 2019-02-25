@@ -78,6 +78,8 @@ zipcode<- sqldf("SELECT *
       WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE)
 #
 #Join the zipcode dataset with the csv dataset by matching zipcodes
+zipcode$zip<-sort(zipcode$zip)
+csv_import$zip<-sort(csv_import$zip)
 zipcode_joincsv<-sqldf("select * 
                        from zipcode 
                        left join (select zip, median, mean, population from csv_import) using (zip)")
@@ -86,8 +88,9 @@ zipcode_joincsv<-sqldf("select *
 zipcode_joincsv$state<-sort(zipcode_joincsv$state)
 #generate a backup of joined data before cliping all rows with NA
 join_backup<-zipcode_joincsv
+write.csv(join_backup, "join_test.csv")
 #clip all rows with an NA field
-zipcode_joincsv_nona<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
+zipcode_joincsv_nona<-na.omit(zipcode_joincsv)
 #reset the row numering for easier access
 rownames(zipcode_joincsv_nona)<-NULL
 #
