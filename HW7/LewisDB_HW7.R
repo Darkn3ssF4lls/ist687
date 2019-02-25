@@ -32,6 +32,7 @@ Numberize <- function(inputVector)
 #############################################################################
 
 #Packages
+EnsurePackage("sqldf")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
 EnsurePackage("zipcode")
@@ -40,24 +41,27 @@ EnsurePackage("zipcode")
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
+csv_backup<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
 #############################Problems Solved#################################
 #############################################################################
 #
 #Step 1: Load the Data
-##1) Read the data – using the gdata package we have previously used.
-#
-
-#
+##1) Read the data using the gdata package we have previously used.
 ##2) Clean up the dataframe
 ###a. Remove any info at the front of the file that’s not needed
 #
-
+csv_import$median<-Numberize(csv_import$median)
+csv_import$mean<-Numberize(csv_import$mean)
+csv_import$pop<-Numberize(csv_import$pop)
+csv_import$zip<-paste(0,csv_import$zip)
+csv_import$zip<-gsub(" ", "", csv_import$zip)
+#csv_import$zip<-csv_backup$Zip
 #
 ###b. Update the column names (zip, median, mean, population)
 #
-
+colnames(csv_import)<-tolower(colnames(csv_import))
 #
 ##3) Load the "zipcode" package
 #
@@ -65,10 +69,15 @@ csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 #
-
+data(zipcode)
 #
-##5) Remove Hawaii and Alaska (just focus on the ‘lower 48’ states)
+##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
 #
+zipcode$state<-sort(zipcode$state)
+zipcode<-zipcode[-1:-751,] #alaska, AA,AE
+rownames(zipcode)<-NULL
+zipcode<-zipcode[-866:-1040,] #AP
+rownames(zipcode)<-NULL
 
 #
 #Step 2: Show the income & population per state
