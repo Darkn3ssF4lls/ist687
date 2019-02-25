@@ -78,8 +78,6 @@ zipcode<- sqldf("SELECT *
       WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE)
 #
 #Join the zipcode dataset with the csv dataset by matching zipcodes
-zipcode$zip<-sort(zipcode$zip)
-csv_import$zip<-sort(csv_import$zip)
 zipcode_joincsv<-sqldf("select * 
                        from zipcode 
                        left join (select zip, median, mean, population from csv_import) using (zip)")
