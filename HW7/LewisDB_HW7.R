@@ -81,14 +81,17 @@ zipcode<- sqldf("SELECT *
 zipcode_joincsv<-sqldf("select * 
                        from zipcode 
                        left join (select zip, median, mean, population from csv_import) using (zip)")
-
+###############################################################################
+#I don't think these tables are joining properly, maybe something is wrong with
+#my csv import
+###############################################################################
 #sort the joined data by state abbrivations
 zipcode_joincsv$state<-sort(zipcode_joincsv$state)
 #generate a backup of joined data before cliping all rows with NA
 join_backup<-zipcode_joincsv
 write.csv(join_backup, "join_test.csv")
 #clip all rows with an NA field
-zipcode_joincsv_nona<-na.omit(zipcode_joincsv)
+zipcode_joincsv_nona<-na.omit(zipcode_joincsv) 
 #reset the row numering for easier access
 rownames(zipcode_joincsv_nona)<-NULL
 #
