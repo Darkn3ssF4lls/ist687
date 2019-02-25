@@ -52,17 +52,14 @@ csv_backup<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 ##2) Clean up the dataframe
 ###a. Remove any info at the front of the file that’s not needed
 #
+#csv_import$zip<-csv_backup$Zip
+###b. Update the column names (zip, median, mean, population)
+colnames(csv_import)<-c('zip', 'median', 'mean', 'population')
 csv_import$median<-Numberize(csv_import$median)
 csv_import$mean<-Numberize(csv_import$mean)
-csv_import$pop<-Numberize(csv_import$pop)
+csv_import$population<-Numberize(csv_import$population)
 csv_import$zip<-paste(0,csv_import$zip)
 csv_import$zip<-gsub(" ", "", csv_import$zip)
-#csv_import$zip<-csv_backup$Zip
-#
-###b. Update the column names (zip, median, mean, population)
-#
-colnames(csv_import)<-tolower(colnames(csv_import))
-#
 ##3) Load the "zipcode" package
 #
 #see imports section
@@ -73,13 +70,16 @@ data(zipcode)
 #
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
 #
-zipcode$state<-sort(zipcode$state)
 zipcode<- sqldf("SELECT * 
       FROM zipcode 
       WHERE state NOT IN ('AA','AE','AK','AP','AS','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
-subset<-sqldf("SELECT *
-               FROM zipcode
-               WHERE zip IN csv_import")
+zipcode_joincsv<-sqldf("select * 
+                       from zipcode 
+                       left join (select zip, median, mean, population from csv_import) using (zip)")
+zipcode_joincsv<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
+zipcode_joincsv$state<-sort(zipcode_joincsv$state)
+rownames(zipcode_joincsv)<-NULL
+write.csv(zipcode_joincsv, "testing.csv")
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
