@@ -64,39 +64,60 @@ csv_import$zip<-paste(0,csv_import$zip)
 csv_import$zip<-gsub(" ", "", csv_import$zip)
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
-#gnerate zipcode and create backup 
+#
+#gnerate zipcode and create backup#
 data(zipcode)
 zipcode_backup<-zipcode
+
+#Code to select only the US minus HI,AK, and DC)#
+#zipcode<- sqldf("SELECT * 
+#      FROM zipcode 
+#      WHERE state NOT IN ('AA','AE','AK','AP','AS','DC','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
 zipcode<- sqldf("SELECT * 
       FROM zipcode 
-      WHERE state NOT IN ('AA','AE','AK','AP','AS','DC','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
+      WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE)
 #
+#Join the zipcode dataset with the csv dataset by matching zipcodes
 zipcode_joincsv<-sqldf("select * 
                        from zipcode 
                        left join (select zip, median, mean, population from csv_import) using (zip)")
-zipcode_joincsv_nona<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
+
+#sort the joined data by state abbrivations
 zipcode_joincsv$state<-sort(zipcode_joincsv$state)
-zipcode_joincsv_nona$state<-sort(zipcode_joincsv_nona$state)
+#generate a backup of joined data before cliping all rows with NA
+join_backup<-zipcode_joincsv
+#clip all rows with an NA field
+zipcode_joincsv_nona<-zipcode_joincsv[complete.cases(zipcode_joincsv),]
+#reset the row numering for easier access
 rownames(zipcode_joincsv_nona)<-NULL
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
 ##2) Add the state abbreviations and the state names as new columns (make sure the state names are all lower case)#
+#create a vector filled with the 50 states, than clip AK and HI
 states<-tolower(state.name)
 states<-states[-2]
 states<-states[-10]
+#generate a vector filled with the sates abreviations
 abv<-tolower(c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
-population<-NULL
-median_income<-NULL
+population<-NULL #generate code to add the populations of each state 
+income<-NULL #generate the code to show the average income per state
 step2_df<-data.frame(states, abv) #, population, median_income)
 ##3) Show the U.S. map, representing the color with the average median income of that state
 #
 us<-map_data("states")
-step2_map<-ggplot(data=step2_df, map_id=state))
+income_map<-ggplot(data=step2_df, map_id=state)
+income_map<-income_map + geom_map(map=us, aes(fill=income))
+income_map<-income_map + expand_limits(x=us$long, y=us$lat)
+income_map<-income_map + coord_map() + ggtile("State Colored by Median Income")
 #
 ##4) Create a second map with color representing the population of the state
 #
-
+us<-map_data("states")
+pop_map<-ggplot(data=step2_df, map_id=state)
+pop_map<-pop_map + geom_map(map=us, aes(fill=income))
+pop_map<-pop_map + expand_limits(x=us$long, y=us$lat)
+pop_map<-pop_map + coord_map() + ggtile("State Colored by Population")
 #
 #Step 3: Show the income per zip code
 ##1) Have draw each zip code on the map, where the color of the ‘dot’ is based on the median income. To make the map look appealing, have the background of the map be black.
