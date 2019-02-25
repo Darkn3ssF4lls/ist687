@@ -74,11 +74,12 @@ data(zipcode)
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
 #
 zipcode$state<-sort(zipcode$state)
-zipcode<-zipcode[-1:-751,] #alaska, AA,AE
-rownames(zipcode)<-NULL
-zipcode<-zipcode[-866:-1040,] #AP
-rownames(zipcode)<-NULL
-
+zipcode<- sqldf("SELECT * 
+      FROM zipcode 
+      WHERE state NOT IN ('AA','AE','AK','AP','AS','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
+subset<-sqldf("SELECT *
+               FROM zipcode
+               WHERE zip IN csv_import")
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
