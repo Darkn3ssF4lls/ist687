@@ -42,7 +42,7 @@ EnsurePackage("zipcode")
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
-csv_backup<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
+csv_import2<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -68,7 +68,6 @@ csv_import$zip<-gsub(" ", "", csv_import$zip)
 #gnerate zipcode and create backup#
 data(zipcode)
 zipcode_backup<-zipcode
-
 #Code to select only the US minus HI,AK, and DC)#
 #zipcode<- sqldf("SELECT * 
 #      FROM zipcode 
@@ -81,6 +80,7 @@ zipcode<- sqldf("SELECT *
 zipcode_joincsv<-sqldf("SELECT * 
                        FROM zipcode 
                        LEFT JOIN (select zip, median, mean, population from csv_import) using (zip)")
+write.csv(zipcode_joincsv, "joineddata.csv")
 library(compare)
 testing_values<-compare(zipcode$zip,csv_import$zip)
 testing_values$tM #somethings not right, maybe its not even the join maybe its the importing of the CSV
