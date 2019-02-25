@@ -78,9 +78,12 @@ zipcode<- sqldf("SELECT *
       WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE)
 #
 #Join the zipcode dataset with the csv dataset by matching zipcodes
-zipcode_joincsv<-sqldf("select * 
-                       from zipcode 
-                       left join (select zip, median, mean, population from csv_import) using (zip)")
+zipcode_joincsv<-sqldf("SELECT * 
+                       FROM zipcode 
+                       LEFT JOIN (select zip, median, mean, population from csv_import) using (zip)")
+library(compare)
+testing_values<-compare(zipcode$zip,csv_import$zip)
+testing_values$tM #somethings not right, maybe its not even the join maybe its the importing of the CSV
 ###############################################################################
 #I don't think these tables are joining properly, maybe something is wrong with
 #my csv import
