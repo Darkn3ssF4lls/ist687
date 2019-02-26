@@ -58,8 +58,6 @@ csv_import<-read.csv("Median-Cleaned.csv", stringsAsFactors = FALSE)
 #
 colnames(csv_import)<-tolower(colnames(csv_import))
 csv_import<-data.frame(sapply(csv_import, Numberize))
-csv_import$altzip<-paste(csv_import$zip, "0") #column with 0 on the end
-csv_import$zip<-gsub(" ", "", csv_import$altzip) 
 csv_import$zip<-paste("0",csv_import$zip) #edit zip with 0 on the front
 csv_import$zip<-gsub(" ", "", csv_import$zip)
 #write.csv(csv_import, "csv_cleaned_test.csv") #remove for submission, is to test data to this point
@@ -82,9 +80,10 @@ zipcode<- sqldf("SELECT *
 #zipcode_joincsv<-sqldf("SELECT * 
  #                      FROM zipcode 
  #                      LEFT JOIN (select zip, median, mean, population from csv_import) using (zip)")
-zipcode_joincsv<-sqldf("SELECT * 
-                       FROM csv_import 
-                       LEFT JOIN (select zip, city, state, latitude, longitude from zipcode) using (zip)")
+#zipcode_joincsv<-sqldf("SELECT * 
+#                       FROM csv_import 
+#                       LEFT JOIN (select zip, city, state, latitude, longitude from zipcode) using (zip)")
+zipcode_joincsv<-merge(zipcode, csv_import)
 
 #write.csv(zipcode_joincsv, "joineddata.csv") #remove from submisison is to test data to this point
 
