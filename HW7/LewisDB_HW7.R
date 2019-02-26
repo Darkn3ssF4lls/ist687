@@ -20,12 +20,11 @@ EnsurePackage<-function(x){
        require(x, character.only=TRUE)
      }
 }
-Numberize <- function(inputVector)
-{
-  inputVector <- gsub(",", "", inputVector)
+Numberize <- function(inputVector){
+  inputVector <-gsub(",","",inputVector)
   inputVector <- gsub(" ", "", inputVector)
-  return(as.numeric(inputVector))
-}
+  inputVector <-  as.numeric(inputVector)
+} 
 #
 #############################################################################
 #############################IMPORTS SECTION#################################
@@ -42,7 +41,6 @@ EnsurePackage("zipcode")
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
-csv_import2<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -57,9 +55,23 @@ csv_import2<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #see imports section for loading package
 #
 colnames(csv_import)<-c('zip', 'median', 'mean', 'population')
-csv_import$median<-Numberize(csv_import$median)
-csv_import$mean<-Numberize(csv_import$mean)
-csv_import$population<-Numberize(csv_import$population)
+#csv_backup<-csv_import
+
+#csv_import$median<-gsub(",","",csv_import$median)
+#csv_import$median<-gsub(" ","",csv_import$median)
+
+#csv_import$mean<-gsub(",","",csv_import$mean)
+#csv_import$mean<-gsub(" ","",csv_import$mean)
+
+#csv_import$population<-gsub(",","",csv_import$population)
+#csv_import$population<-gsub(" ","",csv_import$population)
+
+#csv_import$median <- as.numeric(csv_import$median)
+#csv_import$mean <- as.numeric(csv_import$mean)
+#csv_import$population >-as.numeric(csv_import$population)
+
+#csv_import<-csv_backup
+
 csv_import$zip<-paste("0",csv_import$zip)
 csv_import$zip<-gsub(" ", "", csv_import$zip)
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
