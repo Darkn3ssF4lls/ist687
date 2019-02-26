@@ -13,6 +13,9 @@
 ############################LOCAL FUNCTIONS##################################
 #############################################################################
 #
+dedot <- function(inputVector){
+  inputVector <- gsub("\\.","",csv_import)
+}
 EnsurePackage<-function(x){
    x<-as.character(x)
    if (!require(x,character.only=TRUE)){
@@ -24,7 +27,7 @@ Numberize <- function(inputVector){
   inputVector <-gsub(",","",inputVector)
   inputVector <- gsub(" ", "", inputVector)
   inputVector <-  as.numeric(inputVector)
-} 
+}
 #
 #############################################################################
 #############################IMPORTS SECTION#################################
@@ -34,6 +37,7 @@ EnsurePackage("compare")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
 EnsurePackage("sqldf")
+EnsurePackage("stringr")
 EnsurePackage("reprex")
 EnsurePackage("zipcode")
 #DataSets#
@@ -54,31 +58,33 @@ csv_import<-read.csv("Median-Cleaned.csv", stringsAsFactors = FALSE)
 ###a. Remove any info at the front of the file that not needed
 ###b. Update the column names (zip, median, mean, population)
 ##3) Load the "zipcode" package
-#see imports section for loading package
-#
-colnames(csv_import)<-tolower(colnames(csv_import))
-csv_import<-data.frame(sapply(csv_import, Numberize))
-csv_import$zip<-tr_pad(csv_import$zip, 5, "left","0")
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
-#
-#gnerate zipcode and create backup#
+#############################################################################
+
+#turn the col names to lowercase#
+colnames(csv_import)<-tolower(colnames(csv_import))
+
+#clean up the data frame#
+
+csv_import<-data.frame(sapply(csv_import, Numberize))
+
+#fix the zip column length#
+csv_import$zip<-str_pad(csv_import$zip, 5, "left","0")
+
+#generate zipcode data frame#
 data(zipcode)
+
+#perform a merge based on zipcode col#
 zipcode_joincsv<-merge(x=zipcode, y=csv_import, by="zip")
 
-###############################################################################
-#I don't think these tables are joining properly, maybe something is wrong with
-#my csv import
-###############################################################################
-#sort the joined data by state abbrivations
-zipcode_joincsv$state<-sort(zipcode_joincsv$state)
-#generate a backup of joined data before cliping all rows with NA
-join_backup<-zipcode_joincsv
-write.csv(join_backup, "join_test.csv")
-#clip all rows with an NA field
-zipcode_joincsv_nona<-na.omit(zipcode_joincsv) 
-#reset the row numering for easier access
-rownames(zipcode_joincsv_nona)<-NULL
+#sort by abv
+colnames(zipcode_joincsv)[3]<-"abv"
+zipcode_joincsv$abv<-sort(zipcode_joincsv$abv)
+
+#Restrict to Lower 48 States (excluding all US territories)#
+
+
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
