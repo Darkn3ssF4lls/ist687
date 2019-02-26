@@ -58,8 +58,7 @@ csv_import<-read.csv("Median-Cleaned.csv", stringsAsFactors = FALSE)
 #
 colnames(csv_import)<-tolower(colnames(csv_import))
 csv_import<-data.frame(sapply(csv_import, Numberize))
-csv_import$zip<-
-
+csv_import$zip<-tr_pad(csv_import$zip, 5, "left","0")
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
 #
