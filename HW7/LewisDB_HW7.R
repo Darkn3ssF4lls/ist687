@@ -30,6 +30,7 @@ Numberize <- function(inputVector){
 #############################IMPORTS SECTION#################################
 #############################################################################
 #Packages#
+EnsurePackage("compare")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
 EnsurePackage("sqldf")
@@ -40,7 +41,8 @@ EnsurePackage("zipcode")
 ###[sets working directory to the script folder]#
 this.dir <- dirname(parent.frame(2)$ofile)
 setwd(this.dir)
-csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
+#csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
+csv_import<-read.csv("Median-Cleaned.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -54,26 +56,14 @@ csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 ##3) Load the "zipcode" package
 #see imports section for loading package
 #
-colnames(csv_import)<-c('zip', 'median', 'mean', 'population')
-#csv_backup<-csv_import
-
-#csv_import$median<-gsub(",","",csv_import$median)
-#csv_import$median<-gsub(" ","",csv_import$median)
-
-#csv_import$mean<-gsub(",","",csv_import$mean)
-#csv_import$mean<-gsub(" ","",csv_import$mean)
-
-#csv_import$population<-gsub(",","",csv_import$population)
-#csv_import$population<-gsub(" ","",csv_import$population)
-
-#csv_import$median <- as.numeric(csv_import$median)
-#csv_import$mean <- as.numeric(csv_import$mean)
-#csv_import$population >-as.numeric(csv_import$population)
-
-#csv_import<-csv_backup
-
-csv_import$zip<-paste("0",csv_import$zip)
+colnames(csv_import)<-tolower(colnames(csv_import))
+csv_import<-data.frame(sapply(csv_import, Numberize))
+csv_import$altzip<-paste(csv_import$zip, "0") #column with 0 on the end
+csv_import$zip<-gsub(" ", "", csv_import$altzip) 
+csv_import$zip<-paste("0",csv_import$zip) #edit zip with 0 on the front
 csv_import$zip<-gsub(" ", "", csv_import$zip)
+#write.csv(csv_import, "csv_cleaned_test.csv") #remove for submission, is to test data to this point
+
 ##4) Merge the zip code information from the two data frames (merge into one dataframe)
 ##5) Remove Hawaii and Alaska (just focus on the lower 48 states)
 #
@@ -83,17 +73,21 @@ zipcode_backup<-zipcode
 #Code to select only the US minus HI,AK, and DC)#
 #zipcode<- sqldf("SELECT * 
 #      FROM zipcode 
-#      WHERE state NOT IN ('AA','AE','AK','AP','AS','DC','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE)
+#      WHERE state NOT IN ('AA','AE','AK','AP','AS','DC','FM','GU','HI','MH','MP','PR','PW','VI') " , row.names=TRUE) #select data based on what I don't
 zipcode<- sqldf("SELECT * 
       FROM zipcode 
-      WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE)
+      WHERE state IN ('AL','AZ','AR','CA','CO','CT','DE','FL','GA','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') " , row.names=TRUE) #select data based on what I want
 #
 #Join the zipcode dataset with the csv dataset by matching zipcodes
+#zipcode_joincsv<-sqldf("SELECT * 
+ #                      FROM zipcode 
+ #                      LEFT JOIN (select zip, median, mean, population from csv_import) using (zip)")
 zipcode_joincsv<-sqldf("SELECT * 
-                       FROM zipcode 
-                       LEFT JOIN (select zip, median, mean, population from csv_import) using (zip)")
-write.csv(zipcode_joincsv, "joineddata.csv")
-library(compare)
+                       FROM csv_import 
+                       LEFT JOIN (select zip, city, state, latitude, longitude from zipcode) using (zip)")
+
+#write.csv(zipcode_joincsv, "joineddata.csv") #remove from submisison is to test data to this point
+
 testing_values<-compare(zipcode$zip,csv_import$zip)
 testing_values$tM #somethings not right, maybe its not even the join maybe its the importing of the CSV
 ###############################################################################
@@ -119,7 +113,7 @@ states<-states[-2]
 states<-states[-10]
 #generate a vector filled with the sates abreviations
 abv<-tolower(c("AL","AZ","AR","CA","CO","CT","DE","FL","GA","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"))
-population<-NULL #generate code to add the populations of each state 
+population<- 
 income<-NULL #generate the code to show the average income per state
 step2_df<-data.frame(states, abv) #, population, median_income)
 ##3) Show the U.S. map, representing the color with the average median income of that state
