@@ -132,25 +132,29 @@ map.popColor
 #Step 3: Show the income per zip code
 ##1) Have draw each zip code on the map, where the color of the dota is based on the median income. To make the map look appealing, have the background of the map be black.
 #
-us<-map_data("state")
-step3_df<-data.frame(as.)
+#Create a frame of all the data from this hw#
+step3_df<-data.frame(as.character(tolower(state.name)),as.character(state.abb))
 colnames(step3_df)<-c("state", "abv")
 step3_df<-data.frame(sqldf("SELECT *
                             FROM step3_df
                             WHERE abv NOT IN ('AK', 'HI', 'DC')", row.names=TRUE))
 step3_df<-dplyr::left_join(zipcode_joincsv, step3_df, by="abv")
-step3_df
-map.zipIncome<-ggplot(zipcode_joincsv, aes(map_id=abb))
-map.zipIncome<-map.zipIncome+geom_map(map=us, fill="black", color="white")
+step3_df$state<-sapply(step3_df$state,as.character)
+step3_df<-step3_df[,c(9,3,2,1,4,5,6,7,8)]
+rownames(step3_df)<-NULL
+
+#show each zipcode on the map where color of dot is based on mean income#
+us<-map_data("state")
+map.zipIncome<-ggplot(step3_df, aes(map_id=state))
+map.zipIncome<-map.zipIncome+geom_map(map=us, color="white")
 map.zipIncome<-map.zipIncome+expand_limits(x=us$long, y=us$lat)
-map.zipIncome<-map.zipIncome+coord_map() + ggtitle("does tihs work")
-map.zipIncome<-map.zipIncome+geom_point(aes(x=step3_df$latitude, y=step3_df$latitude))
+map.zipIncome<-map.zipIncome+coord_map() + ggtitle("Map of US Zipcodes Colored by Income")
+map.zipIncome
 
 for (i in step3_df$zip){
-  map.zipIncome<-map.zipIncome+geom_point(data=step3_df, aes(x=step3_df$long, y=lat), alpha=.5, color="red", size=4)
+  map.zipIncome<-map.zipIncome+geom_point(data=step3_df, aes(x=longitude, y=latitude), alpha=.5, color="red", size=4)
 }
-          
-                              
+
 map.zipIncome
 #
 #Step 4: Show Zip Code Density
