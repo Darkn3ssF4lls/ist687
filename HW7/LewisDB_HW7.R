@@ -103,7 +103,7 @@ abv<-abv[-10]
 #places state and abv into a data frame#
 step2_df<-data.frame(states, abv)
 #sums the population by states and puts them in the data frame#
-population<-sqldf("SELECT sum(pop) AS 'pop'
+population<-sqldf("SELECT AVG(pop) AS 'avgpop'
                   FROM zipcode_joincsv 
                   GROUP BY abv")
 #generates the medium income by state and stores it into a vector#
@@ -124,7 +124,7 @@ map.incomeColor
 #
 us<-map_data("state")
 map.popColor<-ggplot(step2_df,aes(map_id=states))
-map.popColor<-map.popColor+ geom_map(map=us, aes(fill=pop))
+map.popColor<-map.popColor+ geom_map(map=us, aes(fill=avgpop))
 map.popColor<-map.popColor+expand_limits(x=us$long, y=us$lat)
 map.popColor<-map.popColor+coord_map()+ggtitle("States by Population")
 map.popColor
@@ -149,10 +149,7 @@ map.zipIncome<-ggplot(step3_df, aes(map_id=state))
 map.zipIncome<-map.zipIncome+geom_map(map=us, color="white")
 map.zipIncome<-map.zipIncome+expand_limits(x=us$long, y=us$lat)
 map.zipIncome<-map.zipIncome+coord_map() + ggtitle("Map of US Zipcodes Colored by Income")
-
-for (i in step3_df$zip){
-  map.zipIncome+geom_point(data=step3_df, aes(x=longitude[i], y=latitude[i]), alpha=.5, size=4, color=income[i])
-}
+map.zipIncome <- map.zipIncome + geom_point(data=step3_df, aes(x = longitude, y = latitude), alpha=.5, size=2, color="yellow")
 map.zipIncome
 #
 #Step 4: Show Zip Code Density
