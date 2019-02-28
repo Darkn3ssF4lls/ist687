@@ -36,6 +36,7 @@ Numberize <- function(inputVector){
 EnsurePackage("compare")
 EnsurePackage("ggmap")
 EnsurePackage("ggplot2")
+EnsurePackage("mapproj")
 EnsurePackage("sqldf")
 EnsurePackage("stringr")
 EnsurePackage("reprex")
@@ -105,31 +106,38 @@ step2_df<-data.frame(states, abv)
 population<-sqldf("SELECT sum(pop) AS 'pop'
                   FROM zipcode_joincsv 
                   GROUP BY abv")
-step2_df<-data.frame(states,abv,population)
 #generates the medium income by state and stores it into a vector#
 income<-sqldf("SELECT AVG(median) AS 'income'
                   FROM zipcode_joincsv 
                           GROUP BY abv")
+#reformat data frame with all fields#
+step2_df<-data.frame(states,abv,population,income)
 ##3) Show the U.S. map, representing the color with the average median income of that state
 #
-us<-map_data("states")
-income_map<-ggplot(data=step2_df, map_id=state)
-income_map<-income_map + geom_map(map=us, aes(fill=income))
-income_map<-income_map + expand_limits(x=us$long, y=us$lat)
-income_map<-income_map + coord_map() + ggtile("State Colored by Median Income")
-#
+us<-map_data("state")
+map.incomeColor<-ggplot(step2_df,aes(map_id=states))
+map.incomeColor<-map.incomeColor+ geom_map(map=us, aes(fill=income))
+map.incomeColor<-map.incomeColor+expand_limits(x=us$long, y=us$lat)
+map.incomeColor<-map.incomeColor+coord_map()+ggtitle("States by Average Median Income")
+map.incomeColor
 ##4) Create a second map with color representing the population of the state
 #
-us<-map_data("states")
-pop_map<-ggplot(data=step2_df, map_id=state)
-pop_map<-pop_map + geom_map(map=us, aes(fill=income))
-pop_map<-pop_map + expand_limits(x=us$long, y=us$lat)
-pop_map<-pop_map + coord_map() + ggtile("State Colored by Population")
+us<-map_data("state")
+map.popColor<-ggplot(step2_df,aes(map_id=states))
+map.popColor<-map.popColor+ geom_map(map=us, aes(fill=pop))
+map.popColor<-map.popColor+expand_limits(x=us$long, y=us$lat)
+map.popColor<-map.popColor+coord_map()+ggtitle("States by Population")
+map.popColor
 #
 #Step 3: Show the income per zip code
-##1) Have draw each zip code on the map, where the color of the ‘dot’ is based on the median income. To make the map look appealing, have the background of the map be black.
+##1) Have draw each zip code on the map, where the color of the dota is based on the median income. To make the map look appealing, have the background of the map be black.
 #
-
+us<-map_data("state")
+map.popColor<-ggplot(step2_d,aes(map_id=states))
+map.popColor<-map.popColor+ geom_map(map=us, aes(fill=pop))
+map.popColor<-map.popColor+expand_limits(x=us$long, y=us$lat)
+map.popColor<-map.popColor+coord_map()+ggtitle("States by Population")
+map.popColor
 #
 #Step 4: Show Zip Code Density
 ##1) Now generate a different map, one where we can easily see where there are lots of zip codes, and where there are few (using the ‘stat_density2d’ function).
