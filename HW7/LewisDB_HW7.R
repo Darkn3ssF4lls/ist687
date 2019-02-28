@@ -83,7 +83,9 @@ colnames(zipcode_joincsv)[3]<-"abv"
 zipcode_joincsv$abv<-sort(zipcode_joincsv$abv)
 
 #Restrict to Lower 48 States (excluding all US territories)#
-
+zipcode_joincsv<-data.frame(sqldf("SELECT *
+                                  FROM zipcode_joincsv
+                                  WHERE abv NOT IN ('AK', 'HI', 'DC')", row.names=TRUE))
 
 #
 #Step 2: Show the income & population per state
@@ -94,10 +96,20 @@ states<-tolower(state.name)
 states<-states[-2]
 states<-states[-10]
 #generate a vector filled with the sates abreviations
-abv<-state.abv
-population<- 
-income<-NULL #generate the code to show the average income per state
-step2_df<-data.frame(states, abv) #, population, median_income)
+abv<-state.abb
+abv<-abv[-2]
+abv<-abv[-10]
+#places state and abv into a data frame#
+step2_df<-data.frame(states, abv)
+#sums the population by states and puts them in the data frame#
+population<-sqldf("SELECT sum(pop) AS 'pop'
+                  FROM zipcode_joincsv 
+                  GROUP BY abv")
+step2_df<-data.frame(states,abv,population)
+#generates the medium income by state and stores it into a vector#
+income<-sqldf("SELECT AVG(median) AS 'income'
+                  FROM zipcode_joincsv 
+                          GROUP BY abv")
 ##3) Show the U.S. map, representing the color with the average median income of that state
 #
 us<-map_data("states")
