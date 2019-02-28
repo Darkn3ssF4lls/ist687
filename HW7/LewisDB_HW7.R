@@ -149,22 +149,25 @@ map.zipIncome<-ggplot(step3_df, aes(map_id=state))
 map.zipIncome<-map.zipIncome+geom_map(map=us, color="white")
 map.zipIncome<-map.zipIncome+expand_limits(x=us$long, y=us$lat)
 map.zipIncome<-map.zipIncome+coord_map() + ggtitle("Map of US Zipcodes Colored by Income")
-map.zipIncome
 
 for (i in step3_df$zip){
-  map.zipIncome<-map.zipIncome+geom_point(data=step3_df, aes(x=longitude, y=latitude), alpha=.5, color="red", size=4)
+  map.zipIncome+geom_point(data=step3_df, aes(x=longitude[i], y=latitude[i]), alpha=.5, size=4, color=income[i])
 }
-
 map.zipIncome
 #
 #Step 4: Show Zip Code Density
-##1) Now generate a different map, one where we can easily see where there are lots of zip codes, and where there are few (using the ‘stat_density2d’ function).
+##1) Now generate a different map, one where we can easily see where there are lots of zip codes, and where there are few (using the stat_density2d� function).
 #
+us<-map_data("state")
+map.zipDensity<-ggplot(step3_df, aes(map_id=state))
+map.zipDensity<-map.zipDensity+geom_map(map=us, color="white")
+map.zipDensity<-map.zipDensity+expand_limits(x=us$long, y=us$lat)
+map.zipDensity<-map.zipDensity+coord_map() + ggtitle("Map of US Zipcodes Colored by Zipcode Density")
 
 #
 #Step 5: Zoom in to the region around NYC
 ##1) Repeat steps 3 & 4, but have the image / map be of the northeast U.S. (centered around New York).
 #
-
+#instructed not to do this during live session
 #
 #END OF SCRIPT
