@@ -41,8 +41,8 @@ EnsurePackage("zipcode")
 #DataSets#
 ###Works on my windows 10 and mac machines by hitting the source button#
 ###[sets working directory to the script folder]#
-this.dir <- dirname(parent.frame(2)$ofile)
-setwd(this.dir)
+#this.dir <- dirname(parent.frame(2)$ofile) #Commented out to generate report, uncomment to grade
+#setwd(this.dir) #Commented out to generate report, uncomment to grade
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
