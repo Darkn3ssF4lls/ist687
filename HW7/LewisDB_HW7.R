@@ -1,9 +1,9 @@
 #############################################################################
 #Name: Daniel Lewis
 #Description: Homework Assignment 7
-#Date: 2/25/19 (JST)
+#Date: 3/1/19 (JST)
 #input: MedianZIP-3.csv
-#output:
+#output: report of code including charts
 #update history:
 #############################################################################
 #####################HW7: Viz Map HW: Median Income##########################
@@ -84,6 +84,8 @@ zipcode_joincsv$abv<-sort(zipcode_joincsv$abv)
 zipcode_joincsv<-data.frame(sqldf("SELECT *
                                  FROM zipcode_joincsv
                                 WHERE abv NOT IN ('AK', 'HI', 'DC')", row.names=TRUE))
+#check the data#
+print(head(zipcode_joincsv))
 #
 #Step 2: Show the income & population per state
 ##1) Create a simpler dataframe, with just the average median income and the the population for each state.
@@ -108,6 +110,8 @@ income<-sqldf("SELECT AVG(median) AS 'income'
                           GROUP BY abv")
 #reformat data frame with all fields#
 step2_df<-data.frame(states,abv,population,income)
+#check the data#
+print(head(step2_df))
 ##3) Show the U.S. map, representing the color with the average median income of that state
 #
 us<-map_data("state")
@@ -145,7 +149,7 @@ map.zipIncome<-ggplot(step3_df, aes(map_id=state))
 map.zipIncome<-map.zipIncome+geom_map(map=us, color="white")
 map.zipIncome<-map.zipIncome+expand_limits(x=us$long, y=us$lat)
 map.zipIncome<-map.zipIncome+coord_map() + ggtitle("Map of US Zipcodes Colored by Income")
-map.zipIncome <- map.zipIncome + geom_point(data=step3_df, aes(x = longitude, y = latitude), alpha=.5, size=2, color="blue")
+map.zipIncome <- map.zipIncome + geom_point(data=step3_df, aes(x = longitude, y = latitude, fill=median), alpha=.5, size=2, colour="darkblue")
 map.zipIncome
 #
 #Step 4: Show Zip Code Density
