@@ -41,8 +41,8 @@ EnsurePackage("zipcode")
 #DataSets#
 ###Works on my windows 10 and mac machines by hitting the source button#
 ###[sets working directory to the script folder]#
-#this.dir <- dirname(parent.frame(2)$ofile) #Commented out to generate report, uncomment to grade
-#setwd(this.dir) #Commented out to generate report, uncomment to grade
+this.dir <- dirname(parent.frame(2)$ofile) #Commented out to generate report, uncomment to grade
+setwd(this.dir) #Commented out to generate report, uncomment to grade
 csv_import<-read.csv("MedianZIP-3.csv", stringsAsFactors = FALSE)
 #
 #############################################################################
@@ -68,7 +68,8 @@ colnames(csv_import)<-tolower(colnames(csv_import))
 csv_import<-data.frame(sapply(csv_import, Numberize))
 #
 #fix the zip column length#
-csv_import$zip<-str_pad(csv_import$zip, 5, "left","0")
+#csv_import$zip<-str_pad(csv_import$zip, 5, "left","0")
+csv_import$zip<-clean.zipcode(csv_import$zip)
 #
 #generate zipcode data frame#
 data(zipcode)
