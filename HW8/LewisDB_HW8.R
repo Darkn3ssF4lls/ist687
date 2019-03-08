@@ -56,7 +56,7 @@ importedXLS <- read.xls(urlToImport)
 #that year, and finally, the last column shows how bad the winter was during that year.
 #
 #assign thouse column names above
-colnames(importedXLS)<-c("fawn","adult","precip","winter")
+colnames(importedXLS)<-c("fawn","adult","percip","winter")
 #
 #2. You have the option of saving the file save this file to your computer and read it into
 #R, or reading the data directly from the web into a data frame.
@@ -76,7 +76,24 @@ str(importedXLS)
 #that the number of fawns is the outcome (or dependent) variable, which axis should
 #it go on in your plots?
 #
-step4Plot <- ggplot(data=importedXLS, aes(x=fawn, y=adult)) + geom_dotplot()
+#Generate plot of baby fawns vs adaults
+step4Plot <- ggplot(data=importedXLS, aes(y=fawn, x=adult)) + geom_point()
+step4Plot <- step4Plot + ylab("Spring Fawn Count/100") + xlab("Size of Adult Antelope Population/100")
+step4Plot <- step4Plot + ggtitle("Thunder Basin Antelope Study (Fawn to Adult)")
+#Generate plot of baby fawns vs precipitation
+step4Plot2 <- ggplot(data=importedXLS, aes(y=fawn, x=percip)) + geom_point()
+step4Plot2 <- step4Plot2 + ylab("Spring Fawn Count/100") + xlab("Annual Preciptiaton('Inches')")
+step4Plot2 <- step4Plot2 + ggtitle("Thunder Basin Antelope Study (Fawn to Annual Preciptiation)")
+#Generate plot of baby fawns vs winter
+step4Plot3 <- ggplot(data=importedXLS, aes(y=fawn, x=winter)) + geom_point()
+step4Plot3 <- step4Plot3 + ylab("Spring Fawn Count/100") + xlab("Winter Severity Index (1=mild 5=Severe)")
+step4Plot3 <- step4Plot3 + ggtitle("Thunder Basin Antelope Study (Fawn to Winter Severity)")
+#print the plots
+step4Plot
+step4Plot2
+step4Plot3
+#thought question answer
+print("The dependent variable should go upon the y axis and the independant should go on the x.")
 #
 #5. Next, create three regression models of increasing complexity using lm(). In the first
 #model, predict the number of fawns from the severity of the winter. In the second
@@ -86,6 +103,13 @@ step4Plot <- ggplot(data=importedXLS, aes(x=fawn, y=adult)) + geom_dotplot()
 #the most parsimonious model (i.e., the one that did the best job with the fewest predictors), 
 #what would it contain?
 #
-
+#generate a basic lm
+plot(importedXLS$fawn, importedXLS$winter, ylab="Spring Fawn Count/100", xlab="Winter Severity Index (1=mild 5=Severe)", main="Thunder Basin Antelope Study (Fawn to Winter Severity)")
+abline(lm(formula=fawn~winter, importedXLS))
+#generate a basic lm
+twoVariablesPlot <- ggplot(data=importedXLS, aes(y=fawn, x=winter+percip)) + geom_point()
+twoVariablesPlot <- twoVariablesPlot + ylab("Spring Fawn Count/100") + xlab("Winter Severity and Percipitation")
+twoVariablesPlot <- twoVariablesPlot + ggtitle("Thunder Basin Antelope Study (Fawn to Two Variables)")
+twoVariablesPlot + abline(lm(formula=fawn~winter+percip, data=importedXLS))
 #
 #END OF SCRIPT
