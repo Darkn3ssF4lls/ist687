@@ -41,7 +41,7 @@ EnsurePackage("readxl")
 EnsurePackage("gdata")
 #DataSets#
 urlToImport <-"http://college.cengage.com/mathematics/brase/understandable_statistics/7e/students/datasets/mlr/excel/mlr01.xls"
-importedXLS <- read.xls(urlToImport)
+importedXLS <- data.frame(read.xls(urlToImport)
 #
 #############################################################################
 #############################Problems Solved#################################
@@ -56,7 +56,7 @@ importedXLS <- read.xls(urlToImport)
 #that year, and finally, the last column shows how bad the winter was during that year.
 #
 #assign thouse column names above
-colnames(importedXLS)<-c("fawn","adult","percip","winter")
+colnames(importedXLS)<-c("fawn", "adult","precip","winter")
 #
 #2. You have the option of saving the file save this file to your computer and read it into
 #R, or reading the data directly from the web into a data frame.
@@ -105,11 +105,21 @@ print("The dependent variable should go upon the y axis and the independant shou
 #
 #generate a basic lm
 plot(importedXLS$fawn, importedXLS$winter, ylab="Spring Fawn Count/100", xlab="Winter Severity Index (1=mild 5=Severe)", main="Thunder Basin Antelope Study (Fawn to Winter Severity)")
-abline(lm(formula=fawn~winter, importedXLS))
-#generate a basic lm
+lm1<-lm(formula = fawn~winter, importedXLS)
+abline(lm1)
+#generate a two variable rm
 twoVariablesPlot <- ggplot(data=importedXLS, aes(y=fawn, x=winter+percip)) + geom_point()
 twoVariablesPlot <- twoVariablesPlot + ylab("Spring Fawn Count/100") + xlab("Winter Severity and Percipitation")
 twoVariablesPlot <- twoVariablesPlot + ggtitle("Thunder Basin Antelope Study (Fawn to Two Variables)")
-twoVariablesPlot + abline(lm(formula=fawn~winter+percip, data=importedXLS))
+twoVariablesPlot
+#lm2 <- lm(forumla=fawn~winter+precip, importedXLS) # commented out to print report - having issues with this line
+#generate a three variable lm
+allVariablesPlot <- ggplot(data=importedXLS, aes(y=fawn, x=winter+percip+adult)) + geom_point()
+allVariablesPlot <- allVariablesPlot + ylab("Spring Fawn Count/100") + xlab("Winter Severity and Percipitation and Adult")
+allVariablesPlot <- allVariablesPlot + ggtitle("Thunder Basin Antelope Study (Fawn to All Variables)")
+allVariablesPlot
+#lm3 <- lm(forumla=fawn~., importedXLS) # commented out to print report - having issues with this line
+#
+#The better of these will be the two variable as the one including all the fields will produce a lower probiblity value. 
 #
 #END OF SCRIPT
