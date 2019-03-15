@@ -107,18 +107,23 @@ print("The dependent variable should go upon the y axis and the independant shou
 plot(importedXLS$fawn, importedXLS$winter, ylab="Spring Fawn Count/100", xlab="Winter Severity Index (1=mild 5=Severe)", main="Thunder Basin Antelope Study (Fawn to Winter Severity)")
 lm1<-lm(formula = fawn~winter, importedXLS)
 abline(lm1)
+str(lm1)
 #generate a two variable rm
 twoVariablesPlot <- ggplot(data=importedXLS, aes(y=fawn, x=winter+percip)) + geom_point()
 twoVariablesPlot <- twoVariablesPlot + ylab("Spring Fawn Count/100") + xlab("Winter Severity and Percipitation")
 twoVariablesPlot <- twoVariablesPlot + ggtitle("Thunder Basin Antelope Study (Fawn to Two Variables)")
 twoVariablesPlot
-#lm2 <- lm(forumla=fawn~winter+precip, importedXLS) # commented out to print report - having issues with this line
+lm2 <- lm(forumla=fawn~winter+precip, importedXLS)
+str(lm2)
+twoVariablesPlot + abline(lm2)
 #generate a three variable lm
 allVariablesPlot <- ggplot(data=importedXLS, aes(y=fawn, x=winter+percip+adult)) + geom_point()
 allVariablesPlot <- allVariablesPlot + ylab("Spring Fawn Count/100") + xlab("Winter Severity and Percipitation and Adult")
 allVariablesPlot <- allVariablesPlot + ggtitle("Thunder Basin Antelope Study (Fawn to All Variables)")
 allVariablesPlot
-#lm3 <- lm(forumla=fawn~., importedXLS) # commented out to print report - having issues with this line
+lm3 <- lm(forumla=fawn~., importedXLS)
+str(lm3)
+allVariablesPlot + abline(lm2)
 #
 #The better of these will be the two variable as the one including all the fields will produce a lower probiblity value. 
 #
