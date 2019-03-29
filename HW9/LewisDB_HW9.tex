@@ -1,0 +1,718 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={LewisDB\_HW9.R},
+            pdfauthor={dblewis},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{LewisDB\_HW9.R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{dblewis}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{Fri Mar 15 09:59:12 2019}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{#############################################################################}
+\CommentTok{#Name: Daniel Lewis}
+\CommentTok{#Description: Homework Assignment 9}
+\CommentTok{#Date: 3/14/19 (JST)}
+\CommentTok{#input: }
+\CommentTok{#output: }
+\CommentTok{#update history:}
+\NormalTok{#############################################################################}
+\NormalTok{#####################HW9: Support Vector Machines Lab########################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\NormalTok{#############################################################################}
+\NormalTok{############################LOCAL FUNCTIONS##################################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\NormalTok{EnsurePackage<-}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{   x<-}\KeywordTok{as.character}\NormalTok{(x)}
+   \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\KeywordTok{require}\NormalTok{(x,}\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{))\{}
+       \KeywordTok{install.packages}\NormalTok{(}\DataTypeTok{pkgs=}\NormalTok{x, }\DataTypeTok{repos=}\StringTok{"http://cran.r-project.org"}\NormalTok{)}
+       \KeywordTok{require}\NormalTok{(x, }\DataTypeTok{character.only=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{     \}}
+\NormalTok{\}}
+\NormalTok{Numberize <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(inputVector)\{}
+\NormalTok{  inputVector <-}\KeywordTok{gsub}\NormalTok{(}\StringTok{","}\NormalTok{,}\StringTok{""}\NormalTok{,inputVector)}
+\NormalTok{  inputVector <-}\StringTok{ }\KeywordTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{""}\NormalTok{, inputVector)}
+\NormalTok{  inputVector <-}\StringTok{  }\KeywordTok{as.numeric}\NormalTok{(inputVector)}
+\NormalTok{\}}
+\CommentTok{#}
+\NormalTok{#############################################################################}
+\NormalTok{#############################IMPORTS SECTION#################################}
+\NormalTok{#############################################################################}
+\CommentTok{#Packages#}
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"arules"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: arules
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'arules' was built under R version 3.5.3
+\end{verbatim}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'arules'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     abbreviate, write
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"kernlab"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: kernlab
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'kernlab'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:arules':
+## 
+##     size
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'ggplot2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:kernlab':
+## 
+##     alpha
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"colorspace"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: colorspace
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"e1071"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: e1071
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'e1071' was built under R version 3.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"gridExtra"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: gridExtra
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'gridExtra' was built under R version 3.5.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"grid"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: grid
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{EnsurePackage}\NormalTok{(}\StringTok{"lattice"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: lattice
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{#############################################################################}
+\NormalTok{#############################Problems Solved#################################}
+\NormalTok{#############################################################################}
+\CommentTok{#}
+\CommentTok{#Step 1:Load the data}
+\NormalTok{myAirquality <-}\StringTok{ }\NormalTok{airquality}
+\KeywordTok{colnames}\NormalTok{(myAirquality)[}\KeywordTok{colSums}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(myAirquality))}\OperatorTok{>}\DecValTok{0}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Ozone"   "Solar.R"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Ozone[}\KeywordTok{is.na}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Ozone)] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Ozone, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Solar.R[}\KeywordTok{is.na}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Solar.R)] <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Solar.R, }\DataTypeTok{na.rm=}\OtherTok{TRUE}\NormalTok{)}
+
+\CommentTok{#Step 2: Create train and test data sets}
+\NormalTok{randomized <-}\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(myAirquality)[}\DecValTok{1}\NormalTok{])}
+\NormalTok{trimmed <-}\StringTok{ }\KeywordTok{floor}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\KeywordTok{dim}\NormalTok{(myAirquality)[}\DecValTok{1}\NormalTok{]}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+
+\NormalTok{toddler <-}\StringTok{ }\NormalTok{myAirquality[randomized[}\DecValTok{1}\OperatorTok{:}\NormalTok{trimmed],]}
+\NormalTok{alphatester <-}\StringTok{ }\NormalTok{myAirquality[randomized[(trimmed}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(myAirquality)[}\DecValTok{1}\NormalTok{]],]}
+
+
+\CommentTok{#Step 3: Build a Model using KSVM & visualize the results}
+
+\NormalTok{mykvsm <-}\StringTok{ }\KeywordTok{ksvm}\NormalTok{(Ozone }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data=}\NormalTok{toddler,}\DataTypeTok{kernel=}\StringTok{"rbfdot"}\NormalTok{, }\DataTypeTok{kpar=}\StringTok{"automatic"}\NormalTok{,}\DataTypeTok{C=}\DecValTok{5}\NormalTok{,}\DataTypeTok{cross=}\DecValTok{3}\NormalTok{,}\DataTypeTok{prob.model=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{mykvsm_predict <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(mykvsm,alphatester,}\DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{mykvsm_predict}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            [,1]
+##  [1,] 55.174213
+##  [2,] 31.641763
+##  [3,] 24.412105
+##  [4,] 13.110199
+##  [5,] 93.258779
+##  [6,] 55.584859
+##  [7,] 48.594803
+##  [8,] 71.390275
+##  [9,] 44.382288
+## [10,] 53.472488
+## [11,] 31.928328
+## [12,] 52.242916
+## [13,] 12.571869
+## [14,] 54.542484
+## [15,] 45.070335
+## [16,] 19.083656
+## [17,] 62.060370
+## [18,] 11.144388
+## [19,] 77.751109
+## [20,] 37.661174
+## [21,] 25.326189
+## [22,] 76.192757
+## [23,]  6.589124
+## [24,] 67.822605
+## [25,] 24.887600
+## [26,] 62.521237
+## [27,] 26.996280
+## [28,] 21.723148
+## [29,] 77.409960
+## [30,] 88.262592
+## [31,] 22.928571
+## [32,] 66.721907
+## [33,] 20.676265
+## [34,] 30.051955
+## [35,] 56.336311
+## [36,] 31.349288
+## [37,] 15.230698
+## [38,] 56.021044
+## [39,] 41.561254
+## [40,] 32.726153
+## [41,] 48.497222
+## [42,] 32.544391
+## [43,] 35.401338
+## [44,] 40.023839
+## [45,] 57.137130
+## [46,] 75.943696
+## [47,] 29.238474
+## [48,] 80.736193
+## [49,] 41.315646
+## [50,] 62.583723
+## [51,] 41.153789
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RMSE =}\StringTok{ }\ControlFlowTok{function}\NormalTok{(m,o)\{}
+  \KeywordTok{sqrt}\NormalTok{(}\KeywordTok{mean}\NormalTok{((m}\OperatorTok{-}\NormalTok{o)}\OperatorTok{^}\DecValTok{2}\NormalTok{))}
+\NormalTok{\}}
+
+\NormalTok{toddler}\OperatorTok{$}\NormalTok{RMSE_Ozone <-}\StringTok{ }\KeywordTok{RMSE}\NormalTok{(alphatester}\OperatorTok{$}\NormalTok{Ozone,mykvsm_predict)}
+
+\NormalTok{step3_gg <-}\KeywordTok{ggplot}\NormalTok{(toddler,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Temp,}\DataTypeTok{y=}\NormalTok{Wind)) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size=}\NormalTok{RMSE_Ozone,}\DataTypeTok{color=}\NormalTok{Ozone))}\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Step 3 Air Quality 1"}\NormalTok{)}
+\NormalTok{step3_gg}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW9_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{step3_lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ myAirquality}\OperatorTok{$}\NormalTok{Ozone }\OperatorTok{~}\NormalTok{., }\DataTypeTok{data=}\NormalTok{myAirquality)}
+\KeywordTok{summary}\NormalTok{(step3_lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = myAirquality$Ozone ~ ., data = myAirquality)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -40.263 -13.699  -3.592  10.596 100.549 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -42.16840   19.61843  -2.149   0.0332 *  
+## Solar.R       0.05492    0.02049   2.680   0.0082 ** 
+## Wind         -2.67022    0.54032  -4.942 2.08e-06 ***
+## Temp          1.40550    0.23116   6.080 9.87e-09 ***
+## Month        -1.85576    1.34301  -1.382   0.1691    
+## Day           0.26508    0.19326   1.372   0.1723    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 20.78 on 147 degrees of freedom
+## Multiple R-squared:  0.4927, Adjusted R-squared:  0.4755 
+## F-statistic: 28.56 on 5 and 147 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{step3_lm2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ myAirquality}\OperatorTok{$}\NormalTok{Ozone }\OperatorTok{~}\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Solar.R}\OperatorTok{+}\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Wind}\OperatorTok{+}\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Temp, }\DataTypeTok{data=}\NormalTok{myAirquality)}
+\KeywordTok{summary}\NormalTok{(step3_lm2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = myAirquality$Ozone ~ myAirquality$Solar.R + myAirquality$Wind + 
+##     myAirquality$Temp, data = myAirquality)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -38.618 -14.491  -5.054  12.270 101.176 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)          -38.22315   18.88338  -2.024  0.04474 *  
+## myAirquality$Solar.R   0.05775    0.02003   2.883  0.00452 ** 
+## myAirquality$Wind     -2.71725    0.54280  -5.006 1.55e-06 ***
+## myAirquality$Temp      1.24126    0.20906   5.937 1.96e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 20.9 on 149 degrees of freedom
+## Multiple R-squared:   0.48,  Adjusted R-squared:  0.4696 
+## F-statistic: 45.85 on 3 and 149 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myAirquality_v2 <-}\StringTok{ }\NormalTok{myAirquality}
+
+\NormalTok{myAirquality_v2}\OperatorTok{$}\NormalTok{LM <-}\StringTok{ }\NormalTok{(myAirquality}\OperatorTok{$}\NormalTok{Solar.R}\OperatorTok{*}\FloatTok{0.05775}\OperatorTok{-}\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Wind}\OperatorTok{*}\FloatTok{2.71725}\OperatorTok{+}\NormalTok{myAirquality}\OperatorTok{$}\NormalTok{Temp}\OperatorTok{*}\FloatTok{1.24126}\OperatorTok{-}\FloatTok{38.22315}\NormalTok{)}
+
+\NormalTok{myAirquality_v2}\OperatorTok{$}\NormalTok{RMSE_Ozone <-}\StringTok{ }\KeywordTok{RMSE}\NormalTok{(myAirquality_v2}\OperatorTok{$}\NormalTok{Ozone,myAirquality_v2}\OperatorTok{$}\NormalTok{LM)}
+\NormalTok{myAirquality_v2}\OperatorTok{$}\NormalTok{RMSE_Ozone  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##   [8] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [15] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [22] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [29] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [36] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [43] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [50] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [57] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [64] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [71] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [78] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [85] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [92] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+##  [99] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [106] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [113] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [120] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [127] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [134] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [141] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+## [148] 20.62285 20.62285 20.62285 20.62285 20.62285 20.62285
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{step3_gg2<-}\KeywordTok{ggplot}\NormalTok{(myAirquality_v2,}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{Temp,}\DataTypeTok{y=}\NormalTok{Wind)) }\OperatorTok{+}\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{size=}\NormalTok{RMSE_Ozone,}\DataTypeTok{color=}\NormalTok{Ozone))}\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Step 3 Linear Model Air Quality"}\NormalTok{)}
+\NormalTok{step3_gg2}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW9_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{grid.arrange}\NormalTok{(step3_gg, step3_gg2)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{LewisDB_HW9_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Step 4: Create a 'goodOzone' variable}
+\NormalTok{myAirquality_v3<-myAirquality}
+
+\NormalTok{myAirquality_v3}\OperatorTok{$}\NormalTok{goodOzone <-}\StringTok{ }\KeywordTok{ifelse}\NormalTok{(myAirquality_v3}\OperatorTok{$}\NormalTok{Ozone }\OperatorTok{<=}\StringTok{ }\KeywordTok{mean}\NormalTok{(myAirquality_v3}\OperatorTok{$}\NormalTok{Ozone), }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{)}
+
+
+\NormalTok{randomized2 <-}\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(myAirquality_v3)[}\DecValTok{1}\NormalTok{])}
+\NormalTok{trimmed2 <-}\StringTok{ }\KeywordTok{floor}\NormalTok{(}\DecValTok{2}\OperatorTok{*}\KeywordTok{dim}\NormalTok{(myAirquality_v3)[}\DecValTok{1}\NormalTok{]}\OperatorTok{/}\DecValTok{3}\NormalTok{)}
+
+\NormalTok{toddler2 <-}\StringTok{ }\NormalTok{myAirquality_v3[randomized2[}\DecValTok{1}\OperatorTok{:}\NormalTok{trimmed2],]}
+\NormalTok{betatester <-}\StringTok{ }\NormalTok{myAirquality_v3[randomized2[(trimmed2}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{:}\KeywordTok{dim}\NormalTok{(myAirquality_v3)[}\DecValTok{1}\NormalTok{]],]}
+
+
+\CommentTok{# Step 5: See if we can do a better job predicting 'good' and 'bad' days}
+
+
+\NormalTok{step5_svm <-}\StringTok{ }\KeywordTok{ksvm}\NormalTok{(goodOzone }\OperatorTok{~}\StringTok{ }\NormalTok{toddler2}\OperatorTok{$}\NormalTok{Solar.R}\OperatorTok{+}\NormalTok{toddler2}\OperatorTok{$}\NormalTok{Wind}\OperatorTok{+}\NormalTok{toddler2}\OperatorTok{$}\NormalTok{Temp, }\DataTypeTok{data=}\NormalTok{toddler2,}\DataTypeTok{kernel=}\StringTok{"rbfdot"}\NormalTok{, }\DataTypeTok{kpar=}\StringTok{"automatic"}\NormalTok{,}\DataTypeTok{C=}\DecValTok{5}\NormalTok{,}\DataTypeTok{cross=}\DecValTok{3}\NormalTok{,}\DataTypeTok{prob.model=}\OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{step5_predict <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(step5_svm,betatester,}\DataTypeTok{type=}\StringTok{"response"}\NormalTok{)}
+\NormalTok{step5_predict}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 [,1]
+##   [1,] -0.0318063315
+##   [2,]  0.9537544967
+##   [3,]  0.0224974906
+##   [4,]  1.0504853892
+##   [5,]  0.1934414879
+##   [6,]  0.0249008738
+##   [7,]  0.7504747818
+##   [8,]  0.0463829716
+##   [9,] -0.0639736911
+##  [10,]  0.8173817110
+##  [11,]  0.5013713131
+##  [12,]  0.0350419881
+##  [13,]  0.9464297591
+##  [14,]  0.1553901160
+##  [15,]  1.0463657366
+##  [16,]  0.2793614774
+##  [17,] -0.0247324818
+##  [18,] -0.0463238716
+##  [19,]  0.0217900453
+##  [20,] -0.0459950247
+##  [21,] -0.0227774344
+##  [22,]  0.0480103541
+##  [23,] -0.0184334374
+##  [24,]  0.0462486237
+##  [25,] -0.0143243955
+##  [26,]  0.2513429711
+##  [27,]  0.6211795493
+##  [28,]  0.9535557255
+##  [29,]  0.6364408510
+##  [30,] -0.0040306628
+##  [31,]  0.0989461707
+##  [32,] -0.0054707782
+##  [33,]  0.0464098373
+##  [34,]  0.0315777327
+##  [35,] -0.0375782141
+##  [36,] -0.0011528343
+##  [37,]  0.0461118247
+##  [38,]  0.0462565092
+##  [39,]  0.5476379782
+##  [40,]  0.9538066756
+##  [41,]  0.0004936068
+##  [42,]  0.0267845879
+##  [43,]  0.0460086561
+##  [44,]  1.0290825193
+##  [45,]  0.6228480122
+##  [46,] -0.0462483495
+##  [47,] -0.0462324999
+##  [48,]  1.0308942089
+##  [49,]  0.0232233760
+##  [50,]  0.1397303980
+##  [51,]  1.0459942362
+##  [52,]  0.9827074486
+##  [53,]  0.0463963256
+##  [54,] -0.0179254455
+##  [55,]  0.0462620562
+##  [56,]  0.0700897864
+##  [57,]  0.9707131495
+##  [58,]  0.0463921856
+##  [59,] -0.0463454144
+##  [60,]  0.0462494682
+##  [61,] -0.0017843116
+##  [62,]  0.0461570991
+##  [63,]  0.0462740001
+##  [64,]  0.0463264612
+##  [65,]  0.5948510451
+##  [66,]  0.0128196213
+##  [67,] -0.0463600238
+##  [68,]  0.0391201235
+##  [69,]  0.7268446826
+##  [70,]  0.0462624286
+##  [71,]  0.3651490698
+##  [72,] -0.0266337623
+##  [73,]  0.0441946927
+##  [74,]  1.0552914348
+##  [75,]  0.1305853200
+##  [76,]  0.7669473548
+##  [77,] -0.0121865553
+##  [78,]  0.4581858489
+##  [79,]  0.9536949581
+##  [80,] -0.0462658388
+##  [81,]  0.9032299277
+##  [82,] -0.0009170355
+##  [83,]  0.0091560825
+##  [84,] -0.0450533772
+##  [85,] -0.0463213063
+##  [86,]  0.9539466672
+##  [87,]  0.9307900279
+##  [88,] -0.0120331040
+##  [89,]  0.0214828456
+##  [90,]  0.0489056212
+##  [91,]  0.9365765319
+##  [92,]  0.8969138903
+##  [93,]  0.0074623842
+##  [94,]  1.0461392584
+##  [95,]  0.1851879151
+##  [96,]  0.0461563995
+##  [97,]  0.0428112434
+##  [98,]  0.3998899842
+##  [99,]  0.0462728148
+## [100,]  0.0908900341
+## [101,]  0.6063883077
+## [102,] -0.0056153524
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{betatester}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         Ozone  Solar.R Wind Temp Month Day goodOzone
+## 128  47.00000  95.0000  7.4   87     9   5         1
+## 33   42.12931 287.0000  9.7   74     6   2         0
+## 58   42.12931  47.0000 10.3   73     6  27         0
+## 100  89.00000 229.0000 10.3   90     8   8         1
+## 67   40.00000 314.0000 10.9   83     7   6         0
+## 21    1.00000   8.0000  9.7   59     5  21         0
+## 104  44.00000 192.0000 11.5   86     8  12         1
+## 132  21.00000 230.0000 10.9   75     9   9         0
+## 93   39.00000  83.0000  6.9   81     8   1         0
+## 69   97.00000 267.0000  6.3   92     7   8         1
+## 17   34.00000 307.0000 12.0   66     5  17         0
+## 131  23.00000 220.0000 10.3   78     9   8         0
+## 30  115.00000 223.0000  5.7   79     5  30         1
+## 46   42.12931 322.0000 11.5   79     6  15         0
+## 24   32.00000  92.0000 12.0   61     5  24         0
+## 115  42.12931 255.0000 12.6   75     8  23         0
+## 3    12.00000 149.0000 12.6   74     5   3         0
+## 31   37.00000 279.0000  7.4   76     5  31         0
+## 150  42.12931 145.0000 13.2   77     9  27         0
+## 32   42.12931 286.0000  8.6   78     6   1         0
+## 122  84.00000 237.0000  6.3   96     8  30         1
+## 19   30.00000 322.0000 11.5   68     5  19         0
+## 76    7.00000  48.0000 14.3   80     7  15         0
+## 45   42.12931 332.0000 13.8   80     6  14         0
+## 71   85.00000 175.0000  7.4   89     7  10         1
+## 102  42.12931 222.0000  8.6   92     8  10         0
+## 126  73.00000 183.0000  2.8   93     9   3         1
+## 118  73.00000 215.0000  8.0   86     8  26         1
+## 54   42.12931  91.0000  4.6   76     6  23         0
+## 53   42.12931  59.0000  1.7   76     6  22         0
+## 85   80.00000 294.0000  8.6   86     7  24         1
+## 75   42.12931 291.0000 14.9   91     7  14         0
+## 111  31.00000 244.0000 10.9   78     8  19         0
+## 56   42.12931 135.0000  8.0   75     6  25         0
+## 29   45.00000 252.0000 14.9   81     5  29         1
+## 55   42.12931 250.0000  6.3   76     6  24         0
+## 34   42.12931 242.0000 16.1   67     6   3         0
+## 27   42.12931 185.9315  8.0   57     5  27         0
+## 47   21.00000 191.0000 14.9   77     6  16         0
+## 38   29.00000 127.0000  9.7   82     6   7         0
+## 16   14.00000 334.0000 11.5   64     5  16         0
+## 18    6.00000  78.0000 18.4   57     5  18         0
+## 9     8.00000  19.0000 20.1   61     5   9         0
+## 22   11.00000 320.0000 16.6   73     5  22         0
+## 144  13.00000 238.0000 12.6   64     9  21         0
+## 112  44.00000 190.0000 10.3   78     8  20         1
+## 7    23.00000 299.0000  8.6   65     5   7         0
+## 57   42.12931 127.0000  8.0   78     6  26         0
+## 60   42.12931  31.0000 14.9   77     6  29         0
+## 40   71.00000 291.0000 13.8   90     6   9         1
+## 26   42.12931 266.0000 14.9   58     5  26         0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#step5_gg<-ggplot(toddler2,aes(x=Temp,y=Wind)) +geom_point(aes(size=RMSE_Ozone,color=Ozone))+ ggtitle("Final Graph")}
+\CommentTok{#step5_gg}
+\CommentTok{#}
+\CommentTok{#}
+\CommentTok{#}\RegionMarkerTok{END}\CommentTok{ OF SCRIPT}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}

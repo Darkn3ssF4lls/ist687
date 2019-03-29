@@ -1,0 +1,26 @@
+---
+title: "LewisDB - IST Final Project"
+author: "Daniel B. Lewis"
+date: "March 29, 2019"
+output: word_document
+---
+
+#1 Introduction
+
+#2 Business Questions
+
+#3 Data Acquisition, Clensing, Transformation, Munging
+
+##3.1 Data Acquisition Process
+
+#4 Descriptive Statistics
+
+#5 Modeling Techniques
+
+#6 Data Interpretation
+
+#7 Conclusion
+
+#8 Appendix
+
+#9 References
