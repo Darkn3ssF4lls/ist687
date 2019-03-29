@@ -7,6 +7,7 @@ EnsurePackage<-function(x){
   }
 }
 ###########Import All Required Packages#######################
+EnsurePackage("compare")
 EnsurePackage("ggplot2")
 EnsurePackage("ggmap")
 EnsurePackage("gridExtra")
@@ -16,6 +17,17 @@ EnsurePackage("RJSONIO")
 #############Import Source Data for Project###################
 urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
 rawCSV <- data.frame((read.csv(urlToImport)))
+
+########################Pre-Processing Steps##################
+
+cleanCSV <- rawCSV
+colnames(cleanCSV) <- tolower(colnames(cleanCSV))
+cleanCSV$boro<-tolower(cleanCSV$boro)
+cleanCSV$location_desc<-tolower(cleanCSV$location_desc)
+cleanCSV$perp_sex<-tolower(cleanCSV$perp_sex)
+cleanCSV$perp_race<-tolower(cleanCSV$perp_race)
+cleanCSV$vic_sex<-tolower(cleanCSV$vic_sex)
+cleanCSV$vic_race<-tolower(cleanCSV$vic_race)
 
 ########Create the Data Dictionary############################
 varName<-c("list of names")
