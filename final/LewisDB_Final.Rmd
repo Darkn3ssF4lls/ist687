@@ -52,3 +52,4 @@ This project will attempt to answer the following two questions:
 #8 Appendix
 
 #9 References
+Manipulating and mapping US Census data in R using the acs, tigris and leaflet packages.   (2016, May 06). Retrieved March 29, 2019, from http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/ 
