@@ -7,10 +7,25 @@ EnsurePackage<-function(x){
   }
 }
 ###########Import All Required Packages#######################
-EnsurePackage("ggplot")
+EnsurePackage("ggplot2")
 EnsurePackage("ggmap")
+EnsurePackage("gridExtra")
+EnsurePackage("maptools")
 EnsurePackage("RJSONIO")
 
-##############Gather and Load the Data########################
+#############Import Source Data for Project###################
 urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
 rawCSV <- data.frame((read.csv(urlToImport)))
+
+########Create the Data Dictionary############################
+varName<-c("list of names")
+varType<-c("list of types")
+varDesc<-c("list of descriptions")
+dataDict<-data.frame(varName,varType,varDesc)
+colnames(dataDict)<-c("Variable Name", "Variable Type", "Variable Description")
+
+grid.table(dataDict)
+
+########Create the map to plot on#############################
+
+

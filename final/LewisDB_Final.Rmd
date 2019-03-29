@@ -1,55 +1,108 @@
 ---
-title: "LewisDB - IST Final Project"
-author: "Daniel B. Lewis"
-date: "March 29, 2019"
-output: word_document
+output: 
+  pdf_document:
+    includes:
+      in_header: imports.sty
+      before_body: header.sty
+      toc: true
 ---
-
+<!--the above imports all packages for this file as well as defines the table of contents and cover page for the project.-->
+```{r, include=FALSE}
+#### Generate a Function to Ensure a Package is Installed ###
+EnsurePackage<-function(x){
+  x<-as.character(x)
+  if (!require(x,character.only=TRUE)){
+    install.packages(pkgs=x, repos="http://cran.r-project.org")
+    require(x, character.only=TRUE)
+  }
+}
+###########Import All Required Packages#######################
+EnsurePackage("ggplot2")
+EnsurePackage("ggmap")
+EnsurePackage("maptools")
+EnsurePackage("RJSONIO")
+```
+<!--this is the main body of the project assignment-->
 #1 Introduction
-In hopes to provide safety data to those moving to the City of New York in the year 2019, this report will evaluate the shooting incidents within the city. In order to do this the student has referenced the New York Police Department (NYPD) public facing records for shooting crime violations during the year 2018. This sourced file was provided free to all on the internet and has used the open source program R to analyze this data and present it in a way that anyone can see and understand.  This file contains 115,326 data points that will analyzed. 
+As a once long term resident of the great state of New York. The author aims to learn more about its most populious city through this project. The City of New York, New York has generated an Open Data iniative in order to be fair and open with its consituents. As the author may be taking jobs in the city as early as 2020, there must be a way to determine the dangerous areas of the city from the crime data. In order to do this the student has referenced the New York Police Department (NYPD) public facing records for shooting crime incidents for the period of 2013 through 2018. Throughout this project chunks of **R** code will be displayed inline as a reference to better understand the process. 
 
+***
 #2 Business Questions
 This project will attempt to answer the following two questions:
 
-*	What time of day on average do most of the shootings take place?
-* Which borough and precinct has reported the most shootings during this period?
-*	How outside the median of this data set is this precinct?
+*	Does time of day and location have a direct corilation to a shooting event?
+* Has any part of the city consistantly been aprt of the 
 
+Reason for this understanding
+
+***
 #3 Data Acquisition, Cleansing Transformation, Munging
 
-##3.1 Data Acquisition Process
-  This data was blah blah blah blah blah blah blah blah blah blah. 
+##3.1 Problem Definition
 
-```{r }
+##3.2 Data Acquisition 
+  The data for this report was gathered from [New York Cities Open Data Project](https://data.cityofnewyork.us/Public-Safety/NYPD-Shooting-Incident-Data-Historic-/833y-fsy8 "NYC OpenData Project"). The initial setup for this file is a comma seperated values document with a total of 6,407 rows with 18 attributes for a total of 115,326 data points. 
 
+
+```{r, eval=FALSE}
+urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
+rawCSV <- data.frame((read.csv(urlToImport)))
 ```
 
-
-##3.2 Data Selection Process
-
-##3.3 Data Quality Accessment
-
-##3.4 Selected Fields
+##3.3 Data Clensing Process
 
 ##3.4 Data Dictionary
 
-##3.5 Data Descriptive Statistics
-
-##3.7 Data Clensing Process
-
-##3.8 Graphs, Charts, Tables
-
-##3.9 Interesting Findings
-
+***
 #4 Descriptive Statistics
+
+##4.1 Summary Statistics
+
+##4.2 Data Structure
+
+##4.3 Re-shaping the Data
+
+##4.4 Graphs, Charts, Tables
 
 #5 Modeling Techniques
 
 #6 Data Interpretation
 
-#7 Conclusion
+#7 Summary
+
+Actionable ideas or insights 
 
 #8 Appendix
+##A.1 R Code
 
-#9 References
-Manipulating and mapping US Census data in R using the acs, tigris and leaflet packages.   (2016, May 06). Retrieved March 29, 2019, from http://zevross.com/blog/2015/10/14/manipulating-and-mapping-us-census-data-in-r-using-the-acs-tigris-and-leaflet-packages-3/ 
+```{r, eval=FALSE}
+#### Generate a Function to Ensure a Package is Installed ###
+EnsurePackage<-function(x){
+  x<-as.character(x)
+  if (!require(x,character.only=TRUE)){
+    install.packages(pkgs=x, repos="http://cran.r-project.org")
+    require(x, character.only=TRUE)
+  }
+}
+###########Import All Required Packages#######################
+EnsurePackage("ggplot2")
+EnsurePackage("ggmap")
+EnsurePackage("gridExtra")
+EnsurePackage("maptools")
+EnsurePackage("RJSONIO")
+
+##############Gather and Load the Data########################
+urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
+rawCSV <- data.frame((read.csv(urlToImport)))
+
+########Create the Data Dictionary############################
+varName<-c("list of names")
+varType<-c("list of types")
+varDesc<-c("list of descriptions")
+dataDict<-data.frame(varName,varType,varDesc)
+colnames(dataDict)<-c("Variable Name", "Variable Type", "Variable Description")
+grid.table(dataDict)
+
+########Create the map to plot on#############################
+```
+##A.2 Notes
