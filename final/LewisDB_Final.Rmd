@@ -6,12 +6,40 @@ output: word_document
 ---
 
 #1 Introduction
+In hopes to provide safety data to those moving to the City of New York in the year 2019, this report will evaluate the shooting incidents within the city. In order to do this the student has referenced the New York Police Department (NYPD) public facing records for shooting crime violations during the year 2018. This sourced file was provided free to all on the internet and has used the open source program R to analyze this data and present it in a way that anyone can see and understand.  This file contains 115,326 data points that will analyzed. 
 
 #2 Business Questions
+This project will attempt to answer the following two questions:
 
-#3 Data Acquisition, Clensing, Transformation, Munging
+*	What time of day on average do most of the shootings take place?
+* Which borough and precinct has reported the most shootings during this period?
+*	How outside the median of this data set is this precinct?
+
+#3 Data Acquisition, Cleansing Transformation, Munging
 
 ##3.1 Data Acquisition Process
+  This data was blah blah blah blah blah blah blah blah blah blah. 
+
+```{r }
+
+```
+
+
+##3.2 Data Selection Process
+
+##3.3 Data Quality Accessment
+
+##3.4 Selected Fields
+
+##3.4 Data Dictionary
+
+##3.5 Data Descriptive Statistics
+
+##3.7 Data Clensing Process
+
+##3.8 Graphs, Charts, Tables
+
+##3.9 Interesting Findings
 
 #4 Descriptive Statistics
 
