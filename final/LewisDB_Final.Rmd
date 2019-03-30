@@ -1,14 +1,11 @@
 ---
-#title: "LewisDB - IST Final Project"
-#author: "Daniel B. Lewis"
-#date: "March 29, 2019"
 output: 
   pdf_document:
     includes:
       in_header: imports.sty
       before_body: header.sty
-      #toc: true
-      #toc_depth: 2
+      toc: true
+      toc_depth: 3
 urlcolor: blue
 ---
 <!--the above imports all packages for this file as well as defines the table of contents and cover page for the project.-->
@@ -22,10 +19,14 @@ EnsurePackage<-function(x){
   }
 }
 ###########Import All Required Packages#######################
+EnsurePackage("compare")
 EnsurePackage("ggplot2")
 EnsurePackage("ggmap")
+EnsurePackage("gridExtra")
+EnsurePackage("rgeos")
 EnsurePackage("maptools")
 EnsurePackage("RJSONIO")
+EnsurePackage("sqldf")
 ```
 <!--this is the main body of the project assignment-->
 #1 Introduction
@@ -48,7 +49,6 @@ As the purpose of this project is to determine the dangerous parts of NYC. Under
 
 The purpose of this project is to generate actionable data for a potential future resident of NYC. Actionable data is defined by this project as tables, charts, and modeling to provide graphical information for the reader to understand where the shooting hotspots in the last five years of shooting incidents in NYC. The data from [New York Police Department](https://data.cityofnewyork.us/Public-Safety/NYPD-Shooting-Incident-Data-Historic-/833y-fsy8 "NYPD Shooting Incident Data (Historic)") is assigned several flags that can better help define the demographics of the project. There are some key attributes within this dataset that can be used to generate actionable data. 
 
-\pagebreak
 Exmaple Attributes:
 
 * Ages of Accused & Victims
@@ -59,7 +59,7 @@ Exmaple Attributes:
 ##3.2 Data Acquisition 
 The **NYPD Shooting Incident Data**, which is available freely from the [NYC Open Data website](https://opendata.cityofnewyork.us/ "NYC Open Data") contains one set of data. This project will utalize the powerful data science oriented programing language of **R** to analyze this data. Upon intial review of the information provided to the author via the NYPD. Reading the source documentation for this file it was determined that the best method to import would be a Comma Seperated Values (CSV). Addtionally the document retrieved should contain a total of 6,407 rows with 18 attributes for a total of 115,326 data points. In order to start processing the data it was first imported into the system and stored in the variable rawCSV.
 
-```{r, eval=FALSE}
+```{r, results=FALSE}
 urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
 rawCSV <- data.frame((read.csv(urlToImport)))
 ```
@@ -67,11 +67,7 @@ rawCSV <- data.frame((read.csv(urlToImport)))
 Generating the vector of rawCSV, we created a data frame with the contents of the download csv button from our selected source. Wtih this data now stored within our project, a data scieentist must confirm that the information has arrived correct and that it is able to be used within the project.
 
 ##3.3 Data Clensing Process
-```{r, include=FALSE}
-urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
-rawCSV <- data.frame((read.csv(urlToImport)))
-```
-Although the data retrived is in relativly good shape there are some peculiarities that need to be addressed during the porocess in order to properly utalize this data within the project. The first piece that could be easily recognized just in a look at the data is that alot of the information is in capital letters. Due to several proceses within this project requiring the lowercase columns the data was brought down in case. 
+Although the data retrived is in relativly good shape there are some peculiarities that need to be addressed during the porocess in order to properly utalize this data within the project. The first piece that could be easily recognized just in a look at the data is that alot of the information is in capital letters. Due to several proceses within this project requiring the lowercase data, a to lower operation was required to be conducted on a few fields. 
 
 ```{r, results=FALSE}
 cleanCSV <- rawCSV
@@ -84,17 +80,67 @@ cleanCSV$vic_sex<-tolower(cleanCSV$vic_sex)
 cleanCSV$vic_race<-tolower(cleanCSV$vic_race)
 ```
 
+The next issue with the intial importing of the CSV file is that the file has not properly converted all the fields to their proper data types. Upon pulling the data frames structure we can see that some fields that should be numbers are characters, as well as fields that should be dates or times are also treated as a character field. 
+
+```{r}
+head(str(cleanCSV))
+```
+
+In order to correct these issues, the first column to be targeted was that of the occur_date. From the above structure you can see that this is shown as both a factor and additionally it contained both an unformated date as well as some erronious informationn inserted somewhere along the way during the csv file creation process. 
+
+```{r, results=FALSE}
+removeTime <- function(inputVector){
+  inputVector <-gsub(" 12:00:00 AM","",inputVector)
+  inputVector <- gsub(" ", "", inputVector)
+  inputVector <- as.Date(inputVector, format='%m/%d/%Y')
+  return(inputVector)
+}
+cleanCSV$occur_date<-removeTime(cleanCSV$occur_date)
+```
+
+The column titled location_desc is filled with limited information for the purposes of this report. When it is filled with data the information is not consistant or actionable. This column was removed from the data frame and than verified that it was idneed removed. 
+
+```{r, results=FALSE}
+cleanCSV<-cleanCSV[,-6]
+colnames(cleanCSV)
+```
+
+Finally, after all of this cleaning has been completed only complete rows should remain. This will be rows that do not have any blank values that cannot be used within this report. 
+
+```{r, results=FALSE}
+cleanCSV<-cleanCSV[complete.cases(cleanCSV),]
+```
+
+After performing all of these operations to prepare the data for use within the report the data contains 6407 rows and 17 attributes to perform work on for a total of 108,919 data points. 
 
 ##3.4 Data Dictionary
+
+```{r, echo=FALSE}
+varName<-colnames(cleanCSV)
+varType<-c("int", "date", "chr", "chr", "int", "int", "chr", "chr", "chr", "chr", "chr", "chr", "chr", "int", "int", "num", "num")
+varDesc<-c("Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me")
+dataDict<-data.frame(varName,varType,varDesc)
+colnames(dataDict)<-c("Variable Name", "Variable Type", "Variable Description")
+
+grid.table(dataDict)
+```
+
 
 ***
 #4 Descriptive Statistics
 
 ##4.1 Summary Statistics
+```{r, echo=FALSE}
+summary(cleanCSV)
+```
 
 ##4.2 Data Structure
+```{r, echo=FALSE}
+str(cleanCSV)
+```
 
 ##4.3 Re-shaping the Data
+this is some stuff
 
 ##4.4 Graphs, Charts, Tables
 
