@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  30 MAR 2019 22:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  1 APR 2019 10:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1148,225 +1148,215 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 \openout6 = `LewisDB_Final.toc'.
 
 [1]
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 235.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 226.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 ) [1]
 
-Package xcolor Warning: Incompatible color definition on input line 297.
+Package xcolor Warning: Incompatible color definition on input line 288.
 
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 298.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 289.
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 300.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 291.
 
-Package xcolor Warning: Incompatible color definition on input line 302.
-
-
-Package xcolor Warning: Incompatible color definition on input line 302.
+Package xcolor Warning: Incompatible color definition on input line 293.
 
 
-Package xcolor Warning: Incompatible color definition on input line 320.
+Package xcolor Warning: Incompatible color definition on input line 293.
+
+
+Package xcolor Warning: Incompatible color definition on input line 311.
 
 [2]
 
-Package xcolor Warning: Incompatible color definition on input line 331.
+Package xcolor Warning: Incompatible color definition on input line 322.
 
 
-Package xcolor Warning: Incompatible color definition on input line 331.
+Package xcolor Warning: Incompatible color definition on input line 322.
 
 
-Package xcolor Warning: Incompatible color definition on input line 339.
+Package xcolor Warning: Incompatible color definition on input line 330.
 
 
-Package xcolor Warning: Incompatible color definition on input line 343.
+Package xcolor Warning: Incompatible color definition on input line 334.
 
 
-Package xcolor Warning: Incompatible color definition on input line 343.
+Package xcolor Warning: Incompatible color definition on input line 334.
 
-LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 365
+
+Package xcolor Warning: Incompatible color definition on input line 342.
+
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 347
 .
 (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (244.2429pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ incident_key           : int  138817042 156642467 89216
-118 138898674 90370145 157022340 166728123 156246000 142960968 95301720 ...[] 
- []
+
+Package xcolor Warning: Incompatible color definition on input line 352.
 
 
-Overfull \hbox (212.743pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ occur_date             : Factor w/ 1654 levels "01/01/2
-013 12:00:00 AM",..: 1192 1155 208 1221 512 1189 823 1078 594 294 ...[] 
- []
+Package xcolor Warning: Incompatible color definition on input line 352.
 
 
-Overfull \hbox (186.49307pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ occur_time             : Factor w/ 1179 levels "00:01:0
-0","00:02:00",..: 1136 802 202 817 945 488 1048 18 1033 1092 ...[] 
- []
+Package xcolor Warning: Incompatible color definition on input line 361.
 
 
-Overfull \hbox (18.49356pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ perp_age_group         : Factor w/ 9 levels "","<18","1
-020",..: 1 1 1 1 1 1 1 6 1 5 ...[] 
- []
+Package xcolor Warning: Incompatible color definition on input line 366.
 
 
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ vic_age_group          : Factor w/ 6 levels "<18","18-2
-4",..: 3 3 4 1 2 4 3 4 2 3 ...[] 
- []
+Package xcolor Warning: Incompatible color definition on input line 366.
 
 
-Overfull \hbox (2.7436pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ vic_race               : chr  "black" "black" "asian / 
-pacific islander" "black" ...[] 
- []
-
-
-Overfull \hbox (139.24321pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ x_coord_cd             : int  996949 1051945 1022214 10
-07962 1003564 1032140 1025683 986464 1025580 990479 ...[] 
- []
-
-
-Overfull \hbox (102.49332pt too wide) in paragraph at lines 365--365
-[]\T1/lmtt/m/n/10 ##  $ y_coord_cd             : int  176623 180331 188265 1839
-92 181625 242004 261870 208227 236918 201058 ...[] 
- []
+Package xcolor Warning: Incompatible color definition on input line 372.
 
 [3]
 
-Package xcolor Warning: Incompatible color definition on input line 377.
+Package xcolor Warning: Incompatible color definition on input line 376.
 
 
-Package xcolor Warning: Incompatible color definition on input line 387.
+Package xcolor Warning: Incompatible color definition on input line 376.
 
-
-Package xcolor Warning: Incompatible color definition on input line 387.
-
-
-Package xcolor Warning: Incompatible color definition on input line 394.
-
-
-Package xcolor Warning: Incompatible color definition on input line 399.
-
-
-Package xcolor Warning: Incompatible color definition on input line 399.
-
-
-Package xcolor Warning: Incompatible color definition on input line 405.
-
-
-Package xcolor Warning: Incompatible color definition on input line 409.
-
-
-Package xcolor Warning: Incompatible color definition on input line 409.
-
-<LewisDB_Final_files/figure-latex/unnamed-chunk-8-1.pdf, id=132, 360.34625pt x 
-325.215pt>
-File: LewisDB_Final_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file (type
- pdf)
-<use LewisDB_Final_files/figure-latex/unnamed-chunk-8-1.pdf>
-Package pdftex.def Info: LewisDB_Final_files/figure-latex/unnamed-chunk-8-1.pdf
-  used on input line 417.
-(pdftex.def)             Requested size: 360.34537pt x 325.2142pt.
-[4] [5 <./LewisDB_Final_files/figure-latex/unnamed-chunk-8-1.pdf>] [6]
-Overfull \hbox (244.2429pt too wide) in paragraph at lines 489--489
+[4] [5]
+Overfull \hbox (244.2429pt too wide) in paragraph at lines 487--487
 []\T1/lmtt/m/n/10 ##  $ incident_key           : int  138817042 156642467 89216
 118 138898674 90370145 157022340 166728123 156246000 142960968 95301720 ...[] 
  []
 
 
-Overfull \hbox (186.49307pt too wide) in paragraph at lines 489--489
-[]\T1/lmtt/m/n/10 ##  $ occur_time             : Factor w/ 1179 levels "00:01:0
-0","00:02:00",..: 1136 802 202 817 945 488 1048 18 1033 1092 ...[] 
- []
-
-
-Overfull \hbox (18.49356pt too wide) in paragraph at lines 489--489
-[]\T1/lmtt/m/n/10 ##  $ perp_age_group         : Factor w/ 9 levels "","<18","1
-020",..: 1 1 1 1 1 1 1 6 1 5 ...[] 
- []
-
-
-Overfull \hbox (7.99359pt too wide) in paragraph at lines 489--489
-[]\T1/lmtt/m/n/10 ##  $ vic_age_group          : Factor w/ 6 levels "<18","18-2
-4",..: 3 3 4 1 2 4 3 4 2 3 ...[] 
- []
-
-
-Overfull \hbox (2.7436pt too wide) in paragraph at lines 489--489
+Overfull \hbox (2.7436pt too wide) in paragraph at lines 487--487
 []\T1/lmtt/m/n/10 ##  $ vic_race               : chr  "black" "black" "asian / 
 pacific islander" "black" ...[] 
  []
 
 
-Overfull \hbox (139.24321pt too wide) in paragraph at lines 489--489
+Overfull \hbox (139.24321pt too wide) in paragraph at lines 487--487
 []\T1/lmtt/m/n/10 ##  $ x_coord_cd             : int  996949 1051945 1022214 10
 07962 1003564 1032140 1025683 986464 1025580 990479 ...[] 
  []
 
 
-Overfull \hbox (102.49332pt too wide) in paragraph at lines 489--489
+Overfull \hbox (102.49332pt too wide) in paragraph at lines 487--487
 []\T1/lmtt/m/n/10 ##  $ y_coord_cd             : int  176623 180331 188265 1839
 92 181625 242004 261870 208227 236918 201058 ...[] 
  []
 
+
+Package xcolor Warning: Incompatible color definition on input line 495.
+
+
+Package xcolor Warning: Incompatible color definition on input line 508.
+
+
+Package xcolor Warning: Incompatible color definition on input line 508.
+
+[6]
+
+Package xcolor Warning: Incompatible color definition on input line 530.
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
 [7]
 
-Package xcolor Warning: Incompatible color definition on input line 515.
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 
-Package xcolor Warning: Incompatible color definition on input line 546.
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 
-Package xcolor Warning: Incompatible color definition on input line 546.
+Underfull \vbox (badness 10000) detected at line 646
+ []
 
 
-Package xcolor Warning: Incompatible color definition on input line 546.
+Underfull \vbox (badness 10000) detected at line 646
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 [8]
 
-Package xcolor Warning: Incompatible color definition on input line 546.
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 
-Package xcolor Warning: Incompatible color definition on input line 546.
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Underfull \vbox (badness 10000) detected at line 646
+ []
+
+
+Overfull \vbox (1.09085pt too high) detected at line 646
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
 
 [9]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 551.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 551.
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Underfull \vbox (badness 10000) detected at line 646
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 646
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+[10]
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+
+Package xcolor Warning: Incompatible color definition on input line 646.
+
+[11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 651.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 651.
 (./LewisDB_Final.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 551.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 551.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 651.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 651.
 Package rerunfilecheck Info: File `LewisDB_Final.out' has not changed.
-(rerunfilecheck)             Checksum: 620CA5E46030370B4B6D1B8DB0092830;2940.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 551.
+(rerunfilecheck)             Checksum: 0381F1D3C63BD1969E9AC7C594C07118;2760.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 651.
  ) 
 Here is how much of TeX's memory you used:
- 26223 strings out of 492649
- 464995 string characters out of 6129622
- 671772 words of memory out of 5000000
- 29569 multiletter control sequences out of 15000+600000
- 44361 words of font info for 69 fonts, out of 8000000 for 9000
+ 26219 strings out of 492649
+ 464697 string characters out of 6129622
+ 675772 words of memory out of 5000000
+ 29562 multiletter control sequences out of 15000+600000
+ 44444 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,5n,56p,423b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,6n,56p,423b,459s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local
 /texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2018/
 texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2018/texmf-dist
 /fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
 e1/public/lm/lmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/l
-m/lmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtk10.pf
-b></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on LewisDB_Final.pdf (11 pages, 200664 bytes).
+m/lmtk10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt10.p
+fb>
+Output written on LewisDB_Final.pdf (13 pages, 173519 bytes).
 PDF statistics:
- 200 PDF objects out of 1000 (max. 8388607)
- 176 compressed objects within 2 object streams
- 30 named destinations out of 1000 (max. 500000)
- 6314 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 170 compressed objects within 2 object streams
+ 31 named destinations out of 1000 (max. 500000)
+ 6301 words of extra memory for PDF output out of 10000 (max. 10000000)
 

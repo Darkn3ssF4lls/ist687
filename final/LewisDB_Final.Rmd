@@ -61,7 +61,7 @@ The **NYPD Shooting Incident Data**, which is available freely from the [NYC Ope
 
 ```{r, results=FALSE}
 urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
-rawCSV <- data.frame((read.csv(urlToImport)))
+rawCSV <- data.frame((read.csv(urlToImport, stringsAsFactors = FALSE)))
 ```
 
 Generating the vector of rawCSV, we created a data frame with the contents of the download csv button from our selected source. Wtih this data now stored within our project, a data scieentist must confirm that the information has arrived correct and that it is able to be used within the project.
@@ -82,8 +82,8 @@ cleanCSV$vic_race<-tolower(cleanCSV$vic_race)
 
 The next issue with the intial importing of the CSV file is that the file has not properly converted all the fields to their proper data types. Upon pulling the data frames structure we can see that some fields that should be numbers are characters, as well as fields that should be dates or times are also treated as a character field. 
 
-```{r}
-head(str(cleanCSV))
+```{r, results=FALSE}
+str(cleanCSV)
 ```
 
 In order to correct these issues, the first column to be targeted was that of the occur_date. From the above structure you can see that this is shown as both a factor and additionally it contained both an unformated date as well as some erronious informationn inserted somewhere along the way during the csv file creation process. 
@@ -98,10 +98,10 @@ removeTime <- function(inputVector){
 cleanCSV$occur_date<-removeTime(cleanCSV$occur_date)
 ```
 
-The column titled location_desc is filled with limited information for the purposes of this report. When it is filled with data the information is not consistant or actionable. This column was removed from the data frame and than verified that it was idneed removed. 
+The column titled location_desc is filled with limited information for the purposes of this report. When it is filled with data the information is not consistant or actionable. Additionally, there is a column to indicate what type of officer was involved in this incident. These columns were removed from the data frame and than verified that it was indeed removed. 
 
 ```{r, results=FALSE}
-cleanCSV<-cleanCSV[,-6]
+cleanCSV<-cleanCSV[,-6:-7]
 colnames(cleanCSV)
 ```
 
@@ -114,35 +114,83 @@ cleanCSV<-cleanCSV[complete.cases(cleanCSV),]
 After performing all of these operations to prepare the data for use within the report the data contains 6407 rows and 17 attributes to perform work on for a total of 108,919 data points. 
 
 ##3.4 Data Dictionary
+The following tables displays the list of data items used within this report. 
 
 ```{r, echo=FALSE}
 varName<-colnames(cleanCSV)
-varType<-c("int", "date", "chr", "chr", "int", "int", "chr", "chr", "chr", "chr", "chr", "chr", "chr", "int", "int", "num", "num")
-varDesc<-c("Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me","Replace Me")
+varType<-c("int", 
+           "date", 
+           "chr", 
+           "chr", 
+           "int", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "int", 
+           "int", 
+           "num",
+           "num")
+varDesc<-c("Incidient number, duplicates are victims",
+           "Indicates the date of occurance",
+           "Indicates the time of the incident",
+           "Indicates which borrough the even occured in",
+           "Indicates which police department responded",
+           "Indicates if victim died",
+           "If known, age range of perpetrator",
+           "If known, sex of perpetrator",
+           "If known race of perpetrator ",
+           "Victims Age Range","Victims Sex",
+           "Victims Race",
+           "X grid coordinate for event",
+           "Y grid coordinate for event",
+           "Lattitude of event",
+           "Longitude of event")
 dataDict<-data.frame(varName,varType,varDesc)
 colnames(dataDict)<-c("Variable Name", "Variable Type", "Variable Description")
 
-grid.table(dataDict)
+knitr::kable(dataDict, "latex", booktabs=T)
 ```
-
 
 ***
 #4 Descriptive Statistics
 
 ##4.1 Summary Statistics
+Prior to doing any work with the data, the author wanted to understand the data that they were using. Using the summary command they were able to get the minimum and max values, as well as the mean and median values. As the incident key is an auto generated number for each incident it is not included in these tables. 
 ```{r, echo=FALSE}
-summary(cleanCSV)
+knitr::kable(summary(cleanCSV[2:6]), "latex", booktabs=T)
+knitr::kable(summary(cleanCSV[7:11]), "latex", booktabs=T)
+knitr::kable(summary(cleanCSV[12:16]), "latex", booktabs=T)
 ```
 
 ##4.2 Data Structure
+In order to process and manipulate the data within the project, we must get a firm grasp for what each fields data type is in **R**. This is reflected by using the 
 ```{r, echo=FALSE}
 str(cleanCSV)
 ```
 
-##4.3 Re-shaping the Data
-this is some stuff
+##4.3 Graphs, Charts, Tables
+The first part of generating charts and graphs is to generate the data into easier to read tables for the purpose of genarting graphs to be read. 
+```{r results=FALSE}
+deaths <- sqldf("SELECT *
+                FROM cleanCSV
+                WHERE statistical_murder_flag IN ('true')")
+injuries <- sqldf("SELECT *
+                FROM cleanCSV
+                  WHERE statistical_murder_flag NOT IN ('true')")
 
-##4.4 Graphs, Charts, Tables
+incidentsByLocation <- sqldf("SELECT DISTINCT incident_key, x_coord_cd, 
+                            y_coord_cd, latitude, longitude
+                             FROM cleanCSV")
+
+```
+
+```{r echo=FALSE}
+
+```
 
 ***
 #5 Modeling Techniques
@@ -168,25 +216,110 @@ EnsurePackage<-function(x){
     require(x, character.only=TRUE)
   }
 }
+removeTime <- function(inputVector){
+  inputVector <-gsub(" 12:00:00 AM","",inputVector)
+  inputVector <- gsub(" ", "", inputVector)
+  inputVector <- as.Date(inputVector, format='%m/%d/%Y')
+  return(inputVector)
+}
+
 ###########Import All Required Packages#######################
+EnsurePackage("compare")
 EnsurePackage("ggplot2")
 EnsurePackage("ggmap")
 EnsurePackage("gridExtra")
+EnsurePackage("rgeos")
 EnsurePackage("maptools")
 EnsurePackage("RJSONIO")
+EnsurePackage("sqldf")
 
-##############Gather and Load the Data########################
+#############Import Source Data for Project###################
 urlToImport <- "https://data.cityofnewyork.us/api/views/833y-fsy8/rows.csv?accessType=DOWNLOAD"
-rawCSV <- data.frame((read.csv(urlToImport)))
+rawCSV <- data.frame((read.csv(urlToImport, stringsAsFactors = FALSE)))
+
+########################Pre-Processing Steps##################
+cleanCSV <- rawCSV
+colnames(cleanCSV) <- tolower(colnames(cleanCSV))
+cleanCSV$boro<-tolower(cleanCSV$boro)
+cleanCSV$location_desc<-tolower(cleanCSV$location_desc)
+cleanCSV$perp_sex<-tolower(cleanCSV$perp_sex)
+cleanCSV$perp_race<-tolower(cleanCSV$perp_race)
+cleanCSV$vic_sex<-tolower(cleanCSV$vic_sex)
+cleanCSV$vic_race<-tolower(cleanCSV$vic_race)
+
+
+cleanCSV$occur_date<-removeTime(cleanCSV$occur_date)
+
+cleanCSV<-cleanCSV[,-6:-7]
+colnames(cleanCSV)
+
+cleanCSV<-cleanCSV[complete.cases(cleanCSV),]
+
+####################Creating Descriptive Statistics###########
+
+knitr::kable(summary(cleanCSV[2:6]), "latex", booktabs=T)
+knitr::kable(summary(cleanCSV[7:11]), "latex", booktabs=T)
+knitr::kable(summary(cleanCSV[12:16]), "latex", booktabs=T)
+
+str(cleanCSV)
+
+#################Generating Graph Data########################
+
+deaths <- sqldf("SELECT *
+                FROM cleanCSV
+                WHERE statistical_murder_flag IN ('true')")
+injuries <- sqldf("SELECT *
+                FROM cleanCSV
+                  WHERE statistical_murder_flag NOT IN ('true')")
+
+incidentsByLocation <- sqldf("SELECT DISTINCT incident_key, x_coord_cd, y_coord_cd, latitude, longitude
+                             FROM cleanCSV")
+
 
 ########Create the Data Dictionary############################
-varName<-c("list of names")
-varType<-c("list of types")
-varDesc<-c("list of descriptions")
+varName<-colnames(cleanCSV)
+varType<-c("int", 
+           "date", 
+           "chr", 
+           "chr", 
+           "int", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "chr", 
+           "int", 
+           "int", 
+           "num",
+           "num")
+varDesc<-c("Incidient number, duplicates are victims",
+           "Indicates the date of occurance",
+           "Indicates the time of the incident",
+           "Indicates which borrough the even occured in",
+           "Indicates which police department responded",
+           "Indicates if victim died",
+           "If known, age range of perpetrator",
+           "If known, sex of perpetrator",
+           "If known race of perpetrator ",
+           "Victims Age Range","Victims Sex",
+           "Victims Race",
+           "X grid coordinate for event",
+           "Y grid coordinate for event",
+           "Lattitude of event",
+           "Longitude of event")
 dataDict<-data.frame(varName,varType,varDesc)
 colnames(dataDict)<-c("Variable Name", "Variable Type", "Variable Description")
-grid.table(dataDict)
+
+knitr::kable(dataDict, "latex", booktabs=T)
 
 ########Create the map to plot on#############################
+
+hist_events <- ggplot(data=cleanCSV, aes(x=occur_date))+geom_histogram(aes(color='orange'))
+hist_events
+
+line_deaths <- ggplot(data=cleanCSV, aes(x=occur_date, y=statistical_murder_flag))+geom_line()
+line_deaths
 ```
 ##A.2 Notes
