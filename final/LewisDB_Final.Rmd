@@ -167,7 +167,7 @@ knitr::kable(summary(cleanCSV[12:16]), "latex", booktabs=T)
 ```
 
 ##4.2 Data Structure
-In order to process and manipulate the data within the project, we must get a firm grasp for what each fields data type is in **R**. This is reflected by using the 
+In order to process and manipulate the data within the project, we must get a firm grasp for what each fields data type is in **R**. This is reflected by using the structure command, this command gives a snapshot of all the columns from a dataset and its contents. 
 ```{r, echo=FALSE}
 str(cleanCSV)
 ```
@@ -188,20 +188,38 @@ incidentsByLocation <- sqldf("SELECT DISTINCT incident_key, x_coord_cd,
 
 ```
 
-```{r echo=FALSE}
+The following graph shows the number of shooting incidents broken down by 30 day periods. Although this does not overlap well for months longer or shorter it is a baseline that sits well over the whole year. 
 
+```{r echo=FALSE}
+hist_events <- ggplot(data=cleanCSV, aes(x=occur_date)) + geom_histogram(stat = "bin", binwidth = 30,fill="Red",color='Black') + theme(legend.position = "none")
+hist_events <- hist_events + ggtitle("Number of Shooting Incidents Per Month")+xlab("Date of Shooting")+ylab("Number of Shooting Victims")
+hist_events
+```
+
+The next chart will be the number of murders over the same period of time. Although the shooting events are important. These individuals have lived through this ordeal as far as the NYPD was aware at the time of this innformations publication. The author had difficulty getting the **R** to display the TRUE flag as an instance of one murder being taken place. Even after converting the values to 1 or 0 the chart continued to display as true or false values. 
+
+```{r, echo=FALSE}
+deaths$statistical_murder_flag<-as.integer(as.logical(deaths$statistical_murder_flag))
+line_deaths <- ggplot(data=cleanCSV, aes(x=occur_date, y=statistical_murder_flag))+geom_line()
+line_deaths <- line_deaths + ggtitle("Number of Murders")+xlab("Date of Shooting")+ylab("Number of Murders")
+line_deaths
 ```
 
 ***
 #5 Modeling Techniques
 
-***
-#6 Data Interpretation
+The author had issues converting the data into values that could be understood by the linear modeling techniques shown in class. Below is the code that they attempted to introduce for the murder being related to the borrogh to which the shooting occured. 
+```{r, eval=FALSE}
+correlations <-  ggplot(data=cleanCSV, aes(y=statistical_murder_flag, x=boro)) + geom_point()
+lm1 <- lm(formula = statistical_murder_flag~boro, cleanCSV)
+correlations
+abline(lm1)
+```
 
 ***
-#7 Summary
+#6 Summary
 
-Actionable ideas or insights 
+This report was designed to take information published by the NYPD and return from it information that a person moving to the city could make use of during the 2019 year. Reading from the data presetned you can see that there were 6407 shootign injuries between the years of 2013 and 2018 in New York City. From these shootings there were 1147 declared as murder. This means that `r (1147/6407)*100` % of all shootings resulted in a murder. Additionnally if you take a look at the numbers of incidents that have taken place from 2013 until 2018 you will see that the data has stayed roughly constant with a spike in events in early 2018. That is to say that the risk of you getting shot in NYC has stayed cosntant and that if the population of NYC is millions of people, your chances of getting shot are very slim. This report would recommend that you do move to NYC and good luck on your future journey. 
 
 ***
 #8 Appendix
@@ -316,10 +334,19 @@ knitr::kable(dataDict, "latex", booktabs=T)
 
 ########Create the map to plot on#############################
 
-hist_events <- ggplot(data=cleanCSV, aes(x=occur_date))+geom_histogram(aes(color='orange'))
+hist_events <- ggplot(data=cleanCSV, aes(x=occur_date)) + geom_histogram(stat = "bin", binwidth = 30,fill="Red",color='Black') + theme(legend.position = "none")
+hist_events <- hist_events + ggtitle("Number of Shooting Incidents Per Month")+xlab("Date of Shooting")+ylab("Number of Shooting Victims")
 hist_events
 
+deaths$statistical_murder_flag<-as.integer(as.logical(deaths$statistical_murder_flag))
 line_deaths <- ggplot(data=cleanCSV, aes(x=occur_date, y=statistical_murder_flag))+geom_line()
+line_deaths <- line_deaths + ggtitle("Number of Shooting Incidents Per Month")+xlab("Date of Shooting")+ylab("Number of Shooting Victims")
 line_deaths
+
+##############Plot out a LM of the deaths to burrough########
+
+correlations <-  ggplot(data=cleanCSV, aes(y=statistical_murder_flag, x=boro)) + geom_point()
+lm1 <- lm(formula = statistical_murder_flag~boro, cleanCSV)
+correlations
+abline(lm1)
 ```
-##A.2 Notes

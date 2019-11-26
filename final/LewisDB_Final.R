@@ -106,8 +106,18 @@ knitr::kable(dataDict, "latex", booktabs=T)
 
 ########Create the map to plot on#############################
 
-hist_events <- ggplot(data=cleanCSV, aes(x=occur_date))+geom_histogram(aes(color='orange'))
+hist_events <- ggplot(data=cleanCSV, aes(x=occur_date)) + geom_histogram(stat = "bin", binwidth = 30,fill="Red",color='Black') + theme(legend.position = "none")
+hist_events <- hist_events + ggtitle("Number of Shooting Incidents Per Month")+xlab("Date of Shooting")+ylab("Number of Shooting Victims")
 hist_events
 
+deaths$statistical_murder_flag<-as.integer(as.logical(deaths$statistical_murder_flag))
 line_deaths <- ggplot(data=cleanCSV, aes(x=occur_date, y=statistical_murder_flag))+geom_line()
+line_deaths <- line_deaths + ggtitle("Number of Shooting Incidents Per Month")+xlab("Date of Shooting")+ylab("Number of Shooting Victims")
 line_deaths
+
+##############Plot out a LM of the deaths to burrough########
+
+correlations <-  ggplot(data=cleanCSV, aes(y=statistical_murder_flag, x=boro)) + geom_point()
+lm1 <- lm(formula = statistical_murder_flag~boro, cleanCSV)
+correlations
+abline(lm1)
